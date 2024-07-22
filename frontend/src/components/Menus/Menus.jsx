@@ -3,8 +3,7 @@ import { menu_list } from '../../assets/assets'
 
 // eslint-disable-next-line react/prop-types
 const Menus = ({category, setCategory}) => {
-  console.log('category', category)
-  console.log('setCategry', setCategory)
+  
   return (
     <div className='menus' id='menus'>
       <h1>Explore menu</h1>
