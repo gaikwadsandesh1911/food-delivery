@@ -24,7 +24,7 @@ const StoreContextProvider = ({children})=>{
 
     const cartTotalAmount = ()=>{
         let totalAmount = 0;
-        for(const item in cartItems){
+        for(const item in cartItems){ // for in => used to iterate over properties of an object
             if(cartItems[item] > 0){
 
                 let itemInfo = food_list.find((product)=>product._id === item);

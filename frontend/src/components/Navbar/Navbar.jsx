@@ -22,9 +22,9 @@ const Navbar = ({setShowLogin}) => {
             <li className={navmenu == 'home' ? 'active' : ''} onClick={()=>setNavmenu('home')}>
                 Home
             </li>
-            <li className={navmenu == 'menu' ? 'active' : ''} onClick={()=>setNavmenu("menu")}>Menu</li>
+            <li className={navmenu == 'menu' ? 'active' : ''} onClick={()=>setNavmenu("menu")}><a href="#menus">Menu</a></li>
             <li className={navmenu == 'mobile-app' ? 'active' : ''} onClick={()=>setNavmenu('mobile-app')}>Mobile-App</li>
-            <li className={navmenu == 'contact-us' ? 'active' : ''} onClick={()=>setNavmenu('contact-us')}>Contact Us</li>
+            <li className={navmenu == 'contact-us' ? 'active' : ''} onClick={()=>setNavmenu('contact-us')}> <a href="#footer">Contact Us</a></li>
         </ul>
 
         <div className="navbar-right">
