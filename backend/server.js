@@ -3,6 +3,9 @@ import cors from 'cors'
 import { connectDB } from "./config/db.js";
 import dotenv from 'dotenv'
 import foodRouter from "./routes/foodRoutes.js";
+import { globalErrorHandler } from "./utils/globalErrorHandler.js";
+import { CustomError } from "./utils/CustomeError.js";
+
 dotenv.config();
 
 const app = express();
@@ -20,23 +23,21 @@ app.use('/api/food', foodRouter);
 
 // if route not matches
 app.all('*', (req, res, next)=>{
-    /* res.status(404).json({
+
+    /* return res.status(404).json({
         message: `can't find '${req.originalUrl}' on the server.`
     }); */
 
-    const err = new Error(`can't find '${req.originalUrl}' on the server.`);        // in-built js Error object.
+    /* const err = new Error(`can't find '${req.originalUrl}' on the server.`);        // in-built js Error object.
     err.statusCode = 404;
-    next(err);
+    return next(err); */
+
+    const err = new CustomError(`can't find '${req.originalUrl}' on the server.`, 404)
+    return next(err);
 });
 
 // global error handling middleware
-app.use((err, req, res, next)=>{
-    err.statusCode = err.statusCode || 500
-    err.message = err.message || 'Internal Server Error'
-    return res.status(err.statusCode).json({
-        message: err.message
-    })
-})
+app.use(globalErrorHandler);
 
 app.listen(port, ()=>{
     connectDB();

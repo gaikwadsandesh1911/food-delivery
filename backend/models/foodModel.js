@@ -3,25 +3,25 @@ import mongoose from "mongoose";
 const foodSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: [true, "This is required field"],
+        required: [true, "name is required field"],
         unique: true,
-        minlength: [4, 'At least four char is requiered']
+        minlength: [4, 'name should have atleast four char.']
     },
     description: {
         type: String,
-        required: true,
+        required: [true, "description is required field"],
     },
     price: {
         type: Number,
-        required: true
+        required: [true, "price is required field"],
     },
     image: {
         type: String,
-        required: true
+        required: [true, "image is required field"],
     },
     category: {
         type: String,
-        required: true
+        required: [true, "category is required field"],
     }
 },{timestamps: true});
 
