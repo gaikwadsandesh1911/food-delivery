@@ -8,6 +8,10 @@ const StoreContextProvider = ({children})=>{
 
     const [cartItems, setCartItems] = useState({});
 
+    const backendUrl = "http://localhost:4000";
+
+    // -----------------------------------------------------------------------------------------------------------
+
     const addToCart = (itemId)=>{
         
         if(!cartItems[itemId]){
@@ -18,9 +22,13 @@ const StoreContextProvider = ({children})=>{
         }
     }
 
+    // -----------------------------------------------------------------------------------------------------------
+
     const removeFromCart = (itemId)=>{
         setCartItems((prev)=>({...prev, [itemId]: prev[itemId]-1}));
     }
+
+    // -----------------------------------------------------------------------------------------------------------
 
     const cartTotalAmount = ()=>{
         let totalAmount = 0;
@@ -34,13 +42,17 @@ const StoreContextProvider = ({children})=>{
         return totalAmount;
     }
 
+    // -----------------------------------------------------------------------------------------------------------
+
+
     const contextValue = {
         food_list,
         cartItems,
         setCartItems,
         addToCart,
         removeFromCart,
-        cartTotalAmount
+        cartTotalAmount,
+        backendUrl
     }
 
 

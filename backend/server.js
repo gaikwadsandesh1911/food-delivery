@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 import foodRouter from "./routes/foodRoutes.js";
 import { globalErrorHandler } from "./utils/globalErrorHandler.js";
 import { CustomError } from "./utils/CustomeError.js";
+import userRouter from "./routes/userRoutes.js";
 
 dotenv.config();
 
@@ -16,9 +17,10 @@ app.use(cors());
 
 app.use('/images', express.static('uploads'));
 
-const port = process.env.PORT || 800;
+const port = process.env.PORT || 8000;
 
 app.use('/api/food', foodRouter);
+app.use('/api/user', userRouter);
 
 
 // if route not matches
