@@ -17,6 +17,7 @@ const isStrongPassword = (pswd)=>{
     return validator.isStrongPassword(pswd,{
         minLength: 6,
         minUppercase: 1,
+        minLowercase: 1,
         minNuminNumbers: 1,
         minSymbol: 1,
     })

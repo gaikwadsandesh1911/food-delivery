@@ -1,4 +1,4 @@
-.login-popup{
+.login-popup-overlay{
     position: absolute;
     z-index: 1;
     width: 100%;
@@ -8,11 +8,15 @@
     /* background-color: red; */
 
     display: grid;
+
+    overflow: hidden;
 }
 
 .login-popup-container{
     place-self: center;
+
     width: max(23vw, 330px);
+
     color: #2b2a2a;
     background-color: white;
 
@@ -21,6 +25,7 @@
     gap: 24px;
 
     padding: 24px 30px;
+    outline: 2px solid tomato;
     border-radius: 8px;
     font-size: 14px;
     animation: fadeIn .5s;
@@ -49,6 +54,20 @@
     padding: 8px;
     border-radius: 4px;
 }
+.password-container{
+    /* width: 100%; */
+    position: relative;
+}
+.password-container input{
+    width: 100%;
+}
+.password-container span{
+    position: absolute;
+    bottom: 50%;
+    transform: translateY(50%);
+    right: 8px;
+    cursor: pointer;
+}
 
 .login-popup-container button{
     border: none;
@@ -75,4 +94,11 @@
     color: tomato;
     font-weight: 500;
     cursor: pointer;
+}
+
+.error{
+    color: red;
+    margin-top: -16px;
+    font-style: italic;
+    font-size: 14px;
 }
