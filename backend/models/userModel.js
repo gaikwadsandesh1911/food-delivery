@@ -4,15 +4,19 @@ const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "name is required field"],
+    trim: true,
+    lowercase: true
   },
   email: {
     type: String,
     required: [true, "email is required field"],
-    unique: true
+    unique: true,
+    trim: true
   },
   password: {
     type: String,
     required: [true, "password is required field"],
+    trim: true
   },
   cartData: {
     type: Object,

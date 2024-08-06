@@ -3,6 +3,7 @@ import './loginPopup.css'
 import { assets } from '../../assets/assets';
 import { StoreContext } from '../../context/StoreContext';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 // eslint-disable-next-line react/prop-types
 const LoginPopup = ({setShowLogin}) => {
@@ -43,8 +44,8 @@ const LoginPopup = ({setShowLogin}) => {
     // --------------------------------------------------------------------------------------------------------
     //  email validation
     const isValidEmail = (email)=>{
-        const email_regx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return email_regx.test(email)
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email)
 
     }
 
@@ -69,8 +70,8 @@ const LoginPopup = ({setShowLogin}) => {
 
         let newErrors = {};
 
-            if(userData["name"].length < 3){
-                newErrors.name = "Name should be atleast three char long ";
+            if(userData["name"].trim().length < 3){
+                newErrors.name = "Name should be at least three char long";
             }
             
             if(!isValidEmail(userData["email"])){
@@ -78,36 +79,35 @@ const LoginPopup = ({setShowLogin}) => {
             }
     
             if(userData["password"].length < 6){
-                newErrors.password = "Password must be at least 6 character long"
+                newErrors.password = "Password must be at least 6 char long"
             }
             else if(!isValidPassword(userData["password"])){
-                newErrors.password = "Password must contain at least one symbol, one number, one uppercase letter, and one lowercase letter"
+                newErrors.password = "Password must contain at least one special char, one number, one uppercase letter, and one lowercase letter"
             }
             
             if(userData["confirm_password"] != userData['password']){
-                newErrors.confirm_password = "Password and confirm password should be same ";
+                newErrors.confirm_password = "Password and confirm_password must be same";
             }
             
             setErrors(newErrors);
             // console.log('errors', errors)
     
-            return Object.keys(newErrors).length === 0 
+            return Object.keys(newErrors).length === 0
          
     }
-
     // --------------------------------------------------------------------------------------------------------
     // handle form submission
-    const handleSumbit = (e)=>{
+    const handleSubmit = (e)=>{
 
         e.preventDefault();
 
         // we have currentState = 'Login'
         let isValidForm = true;
 
-        // when currentState = 'Sign Up' then only we call validateForm() function
-        if(currentState === "Sign Up"){
-            isValidForm = false;
-            isValidForm = validateForm();  
+        // when currentState = 'SignIn' then only we call validateForm() function
+        if(currentState === "SignIn"){
+            isValidForm = false;        // to see errors on SignIn state 
+            isValidForm = validateForm();  // returns true or false
             
         }
 
@@ -130,7 +130,8 @@ const LoginPopup = ({setShowLogin}) => {
                 
                 if(res.data.status == "success"){
 
-                    alert(res.data?.message);
+                    // alert(res.data?.message);
+                    toast.success(res.data?.message);
                     
                     setToken(res.data.token);
 
@@ -153,14 +154,16 @@ const LoginPopup = ({setShowLogin}) => {
             .catch((error)=>{
                 // console.log('error', error);
                 if(error.response.data.status == 'failed'){
-                    alert(error.response.data?.message)
+                    // alert(error.response.data?.message)
+                    toast.error(error.response.data?.message);
                 }
             })     
         }
-   
+
     };
 
 // --------------------------------------------------------------------------------------------------------
+
   return (
     <div className="login-popup-overlay"
         onClick={(e)=>{
@@ -171,7 +174,7 @@ const LoginPopup = ({setShowLogin}) => {
         }}
     >
 
-        <form action="" className="login-popup-container" onSubmit={handleSumbit}>
+        <form action="" className="login-popup-container" onSubmit={handleSubmit}>
 
             <div className="login-popup-title">
                 <h2>{currentState}</h2>
@@ -213,18 +216,21 @@ const LoginPopup = ({setShowLogin}) => {
                 
             </div>
 
-            <button type='submit'>{currentState === "Sign Up" ? "Create account" : "Login"}</button>
-            
-            <div className="login-popup-condition">
-                <input type="checkbox" required 
-                    checked={isChecked} onChange={()=>setIsChecked(!isChecked)}
-                />
-                <p>By continuing, i agree to the terms of use & privacy policy.</p>
-            </div>
+            <button type='submit'>{currentState === "SignIn" ? "Create account" : "Login"}</button>
+
+            {
+                currentState === "Login" ? <></> :
+                    <div className="login-popup-condition">
+                        <input type="checkbox" required 
+                            checked={isChecked} onChange={()=>setIsChecked(!isChecked)}
+                            />
+                        <p>By continuing, i agree to the terms of use & privacy policy.</p>
+                    </div>
+            }
             
             {
                 currentState === "Login"
-                    ? <p>Create a new account? <span onClick={()=>setCurrentState("Sign Up")}>Click here</span></p>
+                    ? <p>To create a new account? <span onClick={()=>setCurrentState("SignIn")}>Click here</span></p>
                     : <p>Already have an account? <span onClick={()=>setCurrentState("Login")}>Login here</span></p>
             }
                 

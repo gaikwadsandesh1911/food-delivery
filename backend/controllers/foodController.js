@@ -40,6 +40,7 @@ import { CustomError } from "../utils/CustomeError.js";
 
 // add new foodItem
 const addFood = asyncErrorHandler(async (req, res, next) => {
+  // console.log('req.file', req.file);
   let image_filename = req.file.filename;
 
   const { name, description, price, category } = req.body;
@@ -56,9 +57,7 @@ const addFood = asyncErrorHandler(async (req, res, next) => {
   return res.status(201).json({
     status: "success",
     message: "Food added successfully.",
-    data: {
-      food: newFood,
-    },
+    food: newFood,
   });
 });
 

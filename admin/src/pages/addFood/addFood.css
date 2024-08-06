@@ -1,0 +1,62 @@
+.add-food{
+    width: 70%;
+    margin-left: max(2vw, 24px);
+    margin-top: 20px;
+    font-size: 16px;
+    color: #6d6d6d;
+}
+
+.add-food form{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.add-img-upload img{
+   width: 120px;
+   object-fit: cover;
+   cursor: pointer;
+}
+.add-img-upload label{
+    width: max-content;
+}
+
+.add-product-name, .add-product-description{
+    width: max(40%, 280px);
+}
+.add-product-description textarea{
+    resize: none;
+}
+
+.add-product-name input, .add-product-description textarea{
+   padding: 8px;
+   outline: none;
+}
+
+.add-category-price{
+    display: flex;
+    gap: 10px;
+}
+
+.add-category-price select, .add-category-price input{
+    width: 135px;
+    padding: 8px;
+    outline: none;
+}
+
+.add-btn{
+    width: max(40%, 280px);
+    outline: none;
+    border: none;
+    padding: 8px;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+
+form span.error{
+    color: red;
+    margin-top: -16px;
+    font-size: 14px;
+    font-style: italic;
+}

@@ -45,7 +45,7 @@ const StoreContextProvider = ({children})=>{
     }
 
     // -----------------------------------------------------------------------------------------------------------
-    
+        // when refresh of webpage we will not logout.
         useEffect(()=>{
             const localStorage_token = localStorage.getItem("token")
             if(localStorage_token){
