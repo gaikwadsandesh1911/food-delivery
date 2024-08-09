@@ -23,6 +23,6 @@ const foodSchema = new mongoose.Schema({
         type: String,
         required: [true, "category is required field"],
     }
-},{timestamps: true});
+});
 
 export const FoodModel = mongoose.model('foods', foodSchema);

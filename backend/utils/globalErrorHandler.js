@@ -13,7 +13,7 @@ const devErrors = (res, error)=>{
     })
 }
 
-// ---------------------------------------------------------------------------------------------------------------------------
+// -different kinds of prod errors--------------------------------------------------------------------------------------------
 
 const duplicateKeyErrorHandler = (error)=>{
     // console.log("dupError", error)
@@ -30,6 +30,11 @@ const mongooseValidationErrorHandler = (error)=>{
 }
 // ---------------------------------------------------------------------------------------------------------------------------
 
+const jwtErrorHandler = (error)=>{
+    return new CustomError(error.message, 400)
+}
+
+// ---------------------------------------------------------------------------------------------------------------------------
 
 // production error
 const prodErrors = (res, error)=>{
@@ -37,7 +42,7 @@ const prodErrors = (res, error)=>{
     // console.log('prodError', error);
     
     /* on CustomError class, added isOperational = true. so error send through
-    new CustomError() will have isOperational property */
+    new CustomError() will have isOperational property and only those error message will sent in production */
     if(error.isOperational){   
         return res.status(error.statusCode).json({
             status: 'failed',
@@ -45,7 +50,7 @@ const prodErrors = (res, error)=>{
         });
     }
     // some errors are send by mongoose. where isOperational = false, so, here we send generic error message in production.
-    // we also handle some mongoose validation errors above
+    // we also handle some mongoose validation errors as well jsonwebtoken error
     else{       
         return res.status(error.statusCode).json({
             status: 'error',
@@ -62,7 +67,7 @@ const prodErrors = (res, error)=>{
 */
 
 export const globalErrorHandler = (err, req, res, next)=>{
-    // console.error('globalErr', err);
+    // console.error('globalErr', err.name);
 
     //  if error occured during, creating data... delete the file, uploading with data.
     if(req.file){
@@ -86,14 +91,17 @@ export const globalErrorHandler = (err, req, res, next)=>{
             // the returned result of duplicateKeyErrorHandler() is stored in err variable and sent to prodErrors() function
         }
 
-        if(err.name == "ValidationError")
+        if(err.name == "ValidationError"){
+
             err = mongooseValidationErrorHandler(err)
+        }
+
+        if(err.name == 'JsonWebTokenError'){
+            err = jwtErrorHandler(err)
+        }
 
         prodErrors(res, err);
     }
 
 
-    // return res.status(err.statusCode).json({
-    //     message: err.message
-    // })
 }

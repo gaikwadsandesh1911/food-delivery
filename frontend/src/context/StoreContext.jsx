@@ -1,6 +1,6 @@
 import {createContext, useEffect, useState} from 'react';
-import { food_list } from '../assets/assets';
-
+// import { food_list } from '../assets/assets';
+import axios from 'axios';
 export const StoreContext = createContext(null);
 
 // eslint-disable-next-line react/prop-types
@@ -11,6 +11,30 @@ const StoreContextProvider = ({children})=>{
     const backendUrl = "http://localhost:4000";
 
     const [token, setToken] = useState("");
+
+    // -----------------------------------------------------------------------------------------------------------
+    // fetching foodList from backend
+    const [isLoading, setIsLoading] = useState(false);
+    const [isError, setIsError] = useState(null);
+    const [food_list, setFood_list] = useState([])
+
+    const fetchFoodList = async()=>{
+        try {
+            setIsLoading(true);
+            const {data} = await axios.get(`${backendUrl}/api/food/food-list`)
+            setFood_list(data.foodList)
+            setIsLoading(false)
+            setIsError(null)
+        } catch (error) {
+            setIsLoading(false);
+            setIsError(error)
+            console.log(error)
+        }
+    }
+
+    useEffect(()=>{
+        fetchFoodList()
+    },[])
 
     // -----------------------------------------------------------------------------------------------------------
 
@@ -53,9 +77,10 @@ const StoreContextProvider = ({children})=>{
             }
         },[token])
     // -----------------------------------------------------------------------------------------------------------
-
-
+    
     const contextValue = {
+        isLoading,
+        isError,
         food_list,
         cartItems,
         setCartItems,
@@ -64,7 +89,7 @@ const StoreContextProvider = ({children})=>{
         cartTotalAmount,
         backendUrl,
         token,
-        setToken
+        setToken,
     }
 
 

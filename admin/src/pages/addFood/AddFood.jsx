@@ -87,7 +87,7 @@ const AddFood = () => {
         description: "",
         price: "",
         category: ""
-      })
+      });
       setImageFile(false)
     }
     

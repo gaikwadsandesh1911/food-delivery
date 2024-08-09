@@ -37,7 +37,7 @@ import { CustomError } from "../utils/CustomeError.js";
   }
 } */
 
-
+// ---------------------------------------------------------------------------------------------------------------
 // add new foodItem
 const addFood = asyncErrorHandler(async (req, res, next) => {
   // console.log('req.file', req.file);
@@ -61,23 +61,24 @@ const addFood = asyncErrorHandler(async (req, res, next) => {
   });
 });
 
+// ---------------------------------------------------------------------------------------------------------------
 // display all foodItems
 const foodList = asyncErrorHandler(async (req, res, next) => {
-  const allFoods = await FoodModel.find({});
 
-  if (allFoods.length < 1) {
+  const allFoods = await FoodModel.find();
+
+  /* if (allFoods.length < 1) {
     const err = new CustomError("Food List is empty. Add some Food.", 404);
     return next(err);
-  }
+  } */
 
   return res.status(200).json({
     status: "success",
-    data: {
-      foodList: allFoods,
-    },
+    foodList: allFoods,
   });
 });
 
+// ---------------------------------------------------------------------------------------------------------------
 // remove specific foodItem
 const removeFood = asyncErrorHandler(async (req, res, next) => {
   const food = await FoodModel.findById({ _id: req.body._id });
@@ -89,13 +90,18 @@ const removeFood = asyncErrorHandler(async (req, res, next) => {
 
   const food_name = food.name;
 
+  await FoodModel.findByIdAndDelete({ _id: req.body._id });
+
+  // remove image from uploads folder
   fs.unlinkSync(`uploads/${food.image}`, () => {});
 
-  await FoodModel.findByIdAndDelete({ _id: req.body._id });
   return res.status(200).json({
     status: "success",
     message: `${food.name} removed successfully.`,
   });
 });
 
-export { addFood, foodList, removeFood };  
+// ---------------------------------------------------------------------------------------------------------------
+// remove all food
+
+export { addFood, foodList, removeFood };

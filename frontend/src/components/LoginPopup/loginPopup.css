@@ -1,15 +1,23 @@
 .login-popup-overlay{
-    position: absolute;
+    /* position: absolute; */
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
     z-index: 1;
     width: 100%;
     height: 100%;
 
-    background-color: #0f0f0f90;
-    /* background-color: red; */
-
+    background-color: #47454590;
     display: grid;
 
-    overflow: hidden;
+    /* if popup has more height than vh, make it scrollabe */
+    overflow: auto;
+}
+
+.login-popup-overlay::-webkit-scrollbar{
+    display: none;
 }
 
 .login-popup-container{
@@ -29,6 +37,8 @@
     border-radius: 8px;
     font-size: 14px;
     animation: fadeIn .5s;
+
+    margin: 20px 0px;
 }
 
 .login-popup-title{

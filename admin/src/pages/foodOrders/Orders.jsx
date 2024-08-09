@@ -2,7 +2,7 @@ import "./orders.css"
 
 const Orders = () => {
   return (
-    <div>Orders</div>
+    <div className="orders">Orders</div>
   )
 }
 

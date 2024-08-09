@@ -6,7 +6,7 @@ import { StoreContext } from '../../context/StoreContext.jsx';
 
 // eslint-disable-next-line react/prop-types
 const Navbar = ({setShowLogin}) => {
-
+    
     const [navmenu, setNavmenu] = useState("home")
 
     const {cartTotalAmount, token, setToken } = useContext(StoreContext);
@@ -23,8 +23,7 @@ const Navbar = ({setShowLogin}) => {
     <div className='navbar'>
 
         <div className='navbar__logo'>
-            <Link to='/'><img src={assets.logo} alt="" className='logo'/></Link>
-            
+            <Link to='/'><img src={assets.logo} alt="" className='logo'/></Link>    
         </div>
         
         <ul className="navbar-menu">

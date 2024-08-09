@@ -112,7 +112,7 @@ export const menu_list = [
     menu_image: menu_7,
   },
   {
-    menu_name: "Noodles",
+    menu_name: "Noodels",
     menu_image: menu_8,
   },
 ];
@@ -230,7 +230,7 @@ export const food_list = [
     _id: "13",
     name: "Chicken Sandwich",
     image: food_13,
-    price: 12,
+    price: 18,
     description:
       "Food provides essential nutrients for overall health and well-being",
     category: "Sandwich",
@@ -239,7 +239,7 @@ export const food_list = [
     _id: "14",
     name: "Vegan Sandwich",
     image: food_14,
-    price: 18,
+    price: 12,
     description:
       "Food provides essential nutrients for overall health and well-being",
     category: "Sandwich",
@@ -257,7 +257,7 @@ export const food_list = [
     _id: "16",
     name: "Bread Sandwich",
     image: food_16,
-    price: 24,
+    price: 14,
     description:
       "Food provides essential nutrients for overall health and well-being",
     category: "Sandwich",
@@ -300,7 +300,7 @@ export const food_list = [
   },
   {
     _id: "21",
-    name: "Garlic Mushroom ",
+    name: "Garlic Mushroom",
     image: food_21,
     price: 14,
     description:
@@ -338,7 +338,7 @@ export const food_list = [
     _id: "25",
     name: "Cheese Pasta",
     image: food_25,
-    price: 12,
+    price: 15,
     description:
       "Food provides essential nutrients for overall health and well-being",
     category: "Pasta",
@@ -356,7 +356,7 @@ export const food_list = [
     _id: "27",
     name: "Creamy Pasta",
     image: food_27,
-    price: 16,
+    price: 18,
     description:
       "Food provides essential nutrients for overall health and well-being",
     category: "Pasta",
@@ -374,36 +374,36 @@ export const food_list = [
     _id: "29",
     name: "Buttter Noodles",
     image: food_29,
-    price: 14,
+    price: 24,
     description:
       "Food provides essential nutrients for overall health and well-being",
-    category: "Noodles",
+    category: "Noodels",
   },
   {
     _id: "30",
-    name: "Veg Noodles",
+    name: "Hakka Noodles",
     image: food_30,
-    price: 12,
+    price: 20,
     description:
       "Food provides essential nutrients for overall health and well-being",
-    category: "Noodles",
+    category: "Noodels",
   },
   {
     _id: "31",
-    name: "Somen Noodles",
+    name: "Somen Noodels",
     image: food_31,
     price: 20,
     description:
       "Food provides essential nutrients for overall health and well-being",
-    category: "Noodles",
+    category: "Noodels",
   },
   {
     _id: "32",
     name: "Cooked Noodles",
     image: food_32,
-    price: 15,
+    price: 18,
     description:
       "Food provides essential nutrients for overall health and well-being",
-    category: "Noodles",
+    category: "Noodels",
   },
 ];
