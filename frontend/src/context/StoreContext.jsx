@@ -1,18 +1,12 @@
 import {createContext, useEffect, useState} from 'react';
 // import { food_list } from '../assets/assets';
 import axios from 'axios';
+
 export const StoreContext = createContext(null);
 
 // eslint-disable-next-line react/prop-types
 const StoreContextProvider = ({children})=>{
 
-    const [cartItems, setCartItems] = useState({});
-
-    const backendUrl = "http://localhost:4000";
-
-    const [token, setToken] = useState("");
-
-    // -----------------------------------------------------------------------------------------------------------
     // fetching foodList from backend
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(null);
@@ -38,22 +32,63 @@ const StoreContextProvider = ({children})=>{
 
     // -----------------------------------------------------------------------------------------------------------
 
-    const addToCart = (itemId)=>{
+    const backendUrl = "http://localhost:4000";
+
+    const [cartItems, setCartItems] = useState({});
+
+    // signIn token
+    const [token, setToken] = useState("");
+    // -----------------------------------------------------------------------------------------------------------
         
+
+    const addToCart = async(itemId)=>{
+        /* 
+            on the backend on user we have user.cartData
+            cartData = { itemId: quantity } => if itemId is not already,  then first time we set quantity to 1
+
+            here cartItems is our state defined above   const [cartItems, setCartItems] = useState({});
+        */
         if(!cartItems[itemId]){
             setCartItems((prev)=>({...prev, [itemId]: 1}));
         }
         else{
             setCartItems((prev)=>({...prev, [itemId]: prev[itemId]+1}));
         }
+
+        if(token){
+            await axios.post(`${backendUrl}/api/cart/add-to-cart`, {itemId},
+                {
+                    headers: {
+                        token: `Bearer ${token}`
+                    }
+                }
+            )
+        }
+
     }
 
     // -----------------------------------------------------------------------------------------------------------
 
-    const removeFromCart = (itemId)=>{
+    const removeFromCart = async(itemId)=>{
+
         setCartItems((prev)=>({...prev, [itemId]: prev[itemId]-1}));
+        
+        if(token){
+            await axios.post(`${backendUrl}/api/cart/remove-from-cart`, {itemId},
+                {
+                    headers: {
+                        token: `Bearer ${token}`
+                    }
+                }
+            )
+            // axios.post(url, reqbody, heders)
+        }
     }
 
+    // -----------------------------------------------------------------------------------------------------------
+    
+    
+    
     // -----------------------------------------------------------------------------------------------------------
 
     const cartTotalAmount = ()=>{
@@ -69,14 +104,33 @@ const StoreContextProvider = ({children})=>{
     }
 
     // -----------------------------------------------------------------------------------------------------------
-        // when refresh of webpage we will not logout.
-        useEffect(()=>{
-            const localStorage_token = localStorage.getItem("token")
-            if(localStorage_token){
-                setToken(localStorage_token);
+
+    const fetchCartData = async(token)=> {
+
+        const {data} = await axios.get(`${backendUrl}/api/cart/cart-details`,
+            {
+                headers: {
+                    token: `Bearer ${token}`
+                }
             }
-        },[token])
-    // -----------------------------------------------------------------------------------------------------------
+        )
+        // console.log('cartData', data?.cartData)
+        setCartItems(data?.cartData)
+    }
+
+// -----------------------------------------------------------------------------------------------------------
+
+    // when refresh of webpage we will not logout. and also shows cartData
+    useEffect(()=>{
+        const localStorage_token = localStorage.getItem("token")
+        if(localStorage_token){
+            setToken(localStorage_token);
+            fetchCartData(localStorage_token);  // calling fetchCartData() function if token is availabel
+        }
+    },[token])
+// -----------------------------------------------------------------------------------------------------------
+
+    
     
     const contextValue = {
         isLoading,

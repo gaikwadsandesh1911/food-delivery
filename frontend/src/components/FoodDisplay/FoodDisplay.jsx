@@ -17,7 +17,7 @@ const FoodDisplay = ({category}) => {
         }
 
         {
-            isError && (<>Error...</>)
+            isError && (<>Network Error...</>)
         }
 
         <div className="food-list">
@@ -27,7 +27,7 @@ const FoodDisplay = ({category}) => {
                         if(category === "All" || category === item.category){
                             return (
                                 <FoodCard key={index}
-                                    id={item._id}
+                                    itemId={item._id}
                                     name={item.name}
                                     image={`${backendUrl}/image/`+item.image}
                                     price={item.price}

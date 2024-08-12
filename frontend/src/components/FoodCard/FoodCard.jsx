@@ -4,7 +4,7 @@ import './foodCard.css'
 import { StoreContext } from '../../context/StoreContext';
 
 // eslint-disable-next-line react/prop-types
-const FoodCard = ({id, image, name, price, description}) => {
+const FoodCard = ({itemId, image, name, price, description}) => {
     
     const {cartItems, addToCart, removeFromCart} = useContext(StoreContext);
 
@@ -14,12 +14,13 @@ const FoodCard = ({id, image, name, price, description}) => {
         <div className="food-card-img-container">
             <img className='food-card-img' src={image} alt="" />
             {
-                !cartItems[id]
-                 ? <img className='add-icon' onClick={()=>addToCart(id)} src={assets.add_icon_white}/>
+                
+                !cartItems[itemId]
+                 ? <img className='add-icon' onClick={()=>addToCart(itemId)} src={assets.add_icon_white}/>
                  : <div className="food-item-counter">
-                        <img className='remove-icon' src={assets.remove_icon_red} onClick={()=>removeFromCart(id)}/>
-                        <p>{cartItems[id]}</p>
-                        <img src={assets.add_icon_green} alt="" onClick={()=>addToCart(id)} />
+                        <img className='remove-icon' src={assets.remove_icon_red} onClick={()=>removeFromCart(itemId)}/>
+                        <p>{cartItems[itemId]}</p>
+                        <img src={assets.add_icon_green} alt="" onClick={()=>addToCart(itemId)} />
                    </div>
             }
         </div>

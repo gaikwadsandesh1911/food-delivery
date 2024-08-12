@@ -41,9 +41,8 @@ import { CustomError } from "../utils/CustomeError.js";
 // add new foodItem
 const addFood = asyncErrorHandler(async (req, res, next) => {
   // console.log('req.file', req.file);
-  let image_filename = req.file.filename;
-
   const { name, description, price, category } = req.body;
+  let image_filename = req.file.filename;
 
   const food = new FoodModel({
     name,
@@ -67,10 +66,10 @@ const foodList = asyncErrorHandler(async (req, res, next) => {
 
   const allFoods = await FoodModel.find();
 
-  /* if (allFoods.length < 1) {
+  if (allFoods.length < 1) {
     const err = new CustomError("Food List is empty. Add some Food.", 404);
     return next(err);
-  } */
+  }
 
   return res.status(200).json({
     status: "success",
@@ -88,7 +87,7 @@ const removeFood = asyncErrorHandler(async (req, res, next) => {
     return next(err);
   }
 
-  const food_name = food.name;
+  // const food_name = food.name;
 
   await FoodModel.findByIdAndDelete({ _id: req.body._id });
 

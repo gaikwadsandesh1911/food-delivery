@@ -7,8 +7,8 @@ import { CustomError } from "../utils/CustomeError.js";
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-const generateJwtToken = (id)=> {
-    return jwt.sign({userId: id}, process.env.JWT_SECRET);
+const generateJwtToken = (userId, userEmail)=> {
+    return jwt.sign({userId: userId, userEmail: userEmail}, process.env.JWT_SECRET);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -24,8 +24,7 @@ const isStrongPassword = (pswd)=>{
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-
-// login user
+// register user
 const registerUser = asyncErrorHandler(async (req, res, next) => {
 
     const { name, email, password } = req.body;
@@ -64,7 +63,7 @@ const registerUser = asyncErrorHandler(async (req, res, next) => {
     const user = await newUser.save();
     
     // generate jsonwebtoken
-    const token = generateJwtToken(user._id);
+    const token = generateJwtToken(user._id, user.email);
 
     return res.status(201).json({
         status : 'success',
@@ -73,7 +72,8 @@ const registerUser = asyncErrorHandler(async (req, res, next) => {
     })
 });
 
-//register user
+// ---------------------------------------------------------------------------------------------------------------------
+//login user
 const loginUser = asyncErrorHandler(async (req, res, next)=>{
 
     const { email, password } = req.body;
@@ -94,7 +94,7 @@ const loginUser = asyncErrorHandler(async (req, res, next)=>{
         return next(new CustomError('Invalid email or password', 401));
     }
 
-    const token = generateJwtToken(user._id)
+    const token = generateJwtToken(user._id, user.email)
 
     return res.status(200).json({
         status: 'success',
@@ -105,5 +105,3 @@ const loginUser = asyncErrorHandler(async (req, res, next)=>{
 });
 
 export {loginUser, registerUser};
-
-

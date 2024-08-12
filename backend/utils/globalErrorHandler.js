@@ -67,9 +67,9 @@ const prodErrors = (res, error)=>{
 */
 
 export const globalErrorHandler = (err, req, res, next)=>{
-    // console.error('globalErr', err.name);
+    // console.error('globalErr', err);
 
-    //  if error occured during, creating data... delete the file, uploading with data.
+    //  if error occured delete the file attached with it
     if(req.file){
         fs.unlinkSync(req.file.path, ()=>{})
     }
