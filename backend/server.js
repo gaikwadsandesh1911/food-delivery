@@ -7,6 +7,7 @@ import { globalErrorHandler } from "./utils/globalErrorHandler.js";
 import { CustomError } from "./utils/CustomeError.js";
 import userRouter from "./routes/userRoutes.js";
 import cartRouter from "./routes/cartRoutes.js";
+import orderRouter from "./routes/orderRoutes.js";
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ const port = process.env.PORT || 8000;
 app.use('/api/food', foodRouter);
 app.use('/api/user', userRouter);
 app.use('/api/cart', cartRouter);
+app.use('/api/order', orderRouter)
 
 
 // if route not matches

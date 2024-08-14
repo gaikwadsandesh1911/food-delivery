@@ -50,3 +50,10 @@
 .cart-total button{
     margin-top: 10px;
 }
+
+.error{
+    color: red;
+    font-size: 14px;
+    font-style: italic;
+    margin-top: -16px;
+}

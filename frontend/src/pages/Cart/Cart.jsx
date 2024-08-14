@@ -5,9 +5,8 @@ import {useContext} from 'react'
 const Cart = () => {
 
   const {food_list, cartItems, removeFromCart, cartTotalAmount, backendUrl} = useContext(StoreContext);
- 
   const navigate = useNavigate();
-
+  
   return (
     <div className='cart'>
 

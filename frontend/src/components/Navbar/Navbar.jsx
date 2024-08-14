@@ -9,13 +9,14 @@ const Navbar = ({setShowLogin}) => {
     
     const [navmenu, setNavmenu] = useState("home")
 
-    const {token, setToken, cartTotalAmount } = useContext(StoreContext);
+    const {token, setToken, cartTotalAmount, setCartItems } = useContext(StoreContext);
 
     const navigate = useNavigate();
 
     const logout = ()=>{
        localStorage.removeItem("token");
        setToken("")
+       setCartItems({})
        navigate("/")
     }
 
@@ -27,12 +28,10 @@ const Navbar = ({setShowLogin}) => {
         </div>
         
         <ul className="navbar-menu">
-            <li className={navmenu == 'home' ? 'active' : ''} onClick={()=>setNavmenu('home')}>
-                Home
-            </li>
-            <li className={navmenu == 'menu' ? 'active' : ''} onClick={()=>setNavmenu("menu")}><a href="#menus">Menu</a></li>
+            <li className={navmenu == 'home' ? 'active' : ''} onClick={()=>setNavmenu('home')}><Link to='/'>Home</Link></li>
+            <li className={navmenu == 'menu' ? 'active' : ''} onClick={()=>setNavmenu("menu")}>Menu</li>
             <li className={navmenu == 'mobile-app' ? 'active' : ''} onClick={()=>setNavmenu('mobile-app')}>Mobile-App</li>
-            <li className={navmenu == 'contact-us' ? 'active' : ''} onClick={()=>setNavmenu('contact-us')}> <a href="#footer">Contact Us</a></li>
+            <li className={navmenu == 'contact-us' ? 'active' : ''} onClick={()=>setNavmenu('contact-us')}>Contact Us</li>
         </ul>
 
         <div className="navbar-right">

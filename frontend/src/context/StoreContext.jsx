@@ -97,7 +97,7 @@ const StoreContextProvider = ({children})=>{
             if(cartItems[item] > 0){
 
                 let itemInfo = food_list.find((product)=>product._id === item);
-                totalAmount += itemInfo.price * cartItems[item];
+                totalAmount += itemInfo?.price * cartItems[item];
             }
         }
         return totalAmount;
@@ -125,7 +125,7 @@ const StoreContextProvider = ({children})=>{
         const localStorage_token = localStorage.getItem("token")
         if(localStorage_token){
             setToken(localStorage_token);
-            fetchCartData(localStorage_token);  // calling fetchCartData() function if token is availabel
+            fetchCartData(localStorage_token);  // calling fetchCartData() function if token is available
         }
     },[token])
 // -----------------------------------------------------------------------------------------------------------
