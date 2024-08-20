@@ -7,7 +7,7 @@ import { asyncErrorHandler } from "../utils/asynchErrorHandller.js";
 const placeOrder = asyncErrorHandler(async(req, res, next)=>{
     const {userId} = req.body;      // from authMiddleware
     const {items, amount, address} = req.body
-    const frontEnd_url = 'http://localhost:5173';
+    const frontEnd_url = process.env.FRONTEND_URL
 
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
@@ -51,8 +51,8 @@ const placeOrder = asyncErrorHandler(async(req, res, next)=>{
     const session = await stripe.checkout.sessions.create({
         line_items: line_items,
         mode: 'payment',
-        success_url: `${frontEnd_url}/verify?success=true&orderId=${newOrder._id}`,
-        cancel_url: `${frontEnd_url}/verify?success=false&orderId=${newOrder._id}`,
+        success_url: `${frontEnd_url}/verify-order?success=true&orderId=${newOrder._id}`,
+        cancel_url: `${frontEnd_url}/verify-order?success=false&orderId=${newOrder._id}`,
     })
     // console.log('session', session);
 
@@ -63,7 +63,73 @@ const placeOrder = asyncErrorHandler(async(req, res, next)=>{
     })
 });
 
-export { placeOrder };
+// ---------------------------------------------------------------------------------------------------
+// to verify order, the perfect way is by using webhooks.
+// but here we are using a simple payment verification approach to verify order
+const verifyOrder = asyncErrorHandler(async(req, res, next)=>{
+    const { orderId, success } = req.body;
+    if(success == "true"){
+        await OrderModel.findByIdAndUpdate(orderId, {payment: true}, {new: true});
+        return res.status(200).json({
+            status: 'success',
+            message: "paid successfully.",
+        })
+    }
+    // if amount not paid, we delete the order from db
+    else{
+        await OrderModel.findByIdAndDelete(orderId);
+        return res.status(400).json({
+            status: 'failed',
+            message: "payment failed.",
+        })
+    }
+})
+
+// ---------------------------------------------------------------------------------------------------
+
+const userOrders = asyncErrorHandler(async(req, res, next)=>{
+    const {userId} = req.body
+    const orders = await OrderModel.find({userId: userId}).sort({date: -1})
+    if(orders.length < 1){
+        return res.status(404).json({
+            status: 'failed',
+            message: "no orders found.",
+        })
+    }
+    return res.status(200).json({
+        status: 'success',
+        orders
+    })
+})
+
+// ---------------------------------------------------------------------------------------------------
+// getting all orders for admin dashboard
+const allOrders = asyncErrorHandler(async(req, res, next)=>{
+    const orders = await OrderModel.find().sort({date: -1});
+    if(orders.length < 1){
+        return res.status(404).json({
+            status: 'failed',
+            message: "no orders found.",
+        })
+    }
+    return res.status(200).json({
+        status: 'success',
+        orders
+    });
+})
+// ---------------------------------------------------------------------------------------------------
+const updateOrderStatus = asyncErrorHandler(async(req, res, next)=>{
+    const {orderId, status} = req.body;
+    await OrderModel.findByIdAndUpdate(orderId, {status: status}, {new: true})
+    return res.status(200).json({
+        status: 'success',
+        message: 'Order status updated successfully',
+    })
+})
+// ---------------------------------------------------------------------------------------------------
+
+
+export { placeOrder, verifyOrder, userOrders, allOrders, updateOrderStatus };
 
 
 /* 

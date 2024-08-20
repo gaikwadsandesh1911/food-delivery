@@ -3,3 +3,53 @@
     margin-left: max(2vw, 24px);
     width: 70%
 }
+.order-item{
+    display: grid;
+    grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr;
+    align-items: start;
+    gap: 10px;
+    border: 1px solid tomato;
+    padding: 20px;
+    margin: 20px  0px;
+    font-size: 14px;
+    color: #505050;
+}
+
+.ordered-food, .customer-name{
+    font-weight: 600;
+}
+
+.customer-name{
+    margin: 20px 0px 5px 0px;
+}
+.customer-address{
+    margin-bottom: 10px;
+}
+
+.customer-phone{
+    font-weight: 600;
+}
+
+.order-item select{
+    outline: none;
+    background-color: #e7d9d6;
+    border: 1px solid tomato;
+    width: max(10vw, 120px);
+    height: 30px;
+    border-radius: 2px;
+}
+
+@media (max-width: 900px) {
+    .order-item{
+        grid-template-columns: 0.5fr 2fr 1fr;
+        padding: 16px 8px;
+        font-size: 12px;
+    }
+    .order-item select{
+        font-size: 12px;
+    }
+    .order-item img{
+        width: 30px;
+        height: 30px;
+    }
+}

@@ -1,8 +1,10 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./placeOrder.css";
 import { StoreContext } from "../../context/StoreContext";
 import axios from "axios";
 import {toast} from 'react-toastify'
+import { useNavigate } from "react-router-dom";
+
 
 const PlaceOrder = () => {
 
@@ -83,7 +85,7 @@ const PlaceOrder = () => {
             token: `Bearer ${token}`
           }
         })
-        // console.log('data', data)
+        console.log('stripe session data', data)
 
         if(data.status == 'success'){
           toast.success(data.message)
@@ -99,8 +101,8 @@ const PlaceOrder = () => {
         console.log(error)
       }
 
-
-      /* setUserData({
+      // clear user form
+      setUserData({
         firstName: "",
         lastName: "",
         email: "",
@@ -110,11 +112,24 @@ const PlaceOrder = () => {
         zipcode: "",
         country: "",
         phone: "",
-      }); */
+      });
 
     }
 
   };
+
+// --------------------------------------------------------------------------------------------------
+
+const navigate = useNavigate();
+
+  useEffect(()=>{
+    if(!token){
+      navigate("/")
+    }
+    else if(cartTotalAmount() == 0){
+      navigate("/")
+    }
+  },[token, navigate, cartTotalAmount])
 
   return (
     <form className="place-order" onSubmit={handleSubmit}>

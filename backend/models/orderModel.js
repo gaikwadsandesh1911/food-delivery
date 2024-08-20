@@ -5,6 +5,10 @@ const orderSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    address: {
+        type: Object,
+        required: true
+    },
     items: {
         type: Array,
         required: true
@@ -13,13 +17,9 @@ const orderSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    address: {
-        type: Object,
-        required: true
-    },
     status: {
         type: String,
-        default: 'processing'
+        default: 'Food Preparing'
     },
     date:{
         type:Date,

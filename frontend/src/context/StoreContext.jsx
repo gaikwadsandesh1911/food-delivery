@@ -120,7 +120,7 @@ const StoreContextProvider = ({children})=>{
 
 // -----------------------------------------------------------------------------------------------------------
 
-    // when refresh of webpage we will not logout. and also shows cartData
+    // when refresh of webpage we will not logout. and also shows cartData fetching from db
     useEffect(()=>{
         const localStorage_token = localStorage.getItem("token")
         if(localStorage_token){
