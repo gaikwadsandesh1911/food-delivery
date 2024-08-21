@@ -2,6 +2,8 @@ import { useContext} from 'react'
 import { assets } from '../../assets/assets'
 import './foodCard.css'
 import { StoreContext } from '../../context/StoreContext';
+import LazyLoadImageComponent from '../LazyLoadImage/LazyLoadImageComponent';
+
 
 // eslint-disable-next-line react/prop-types
 const FoodCard = ({itemId, image, name, price, description}) => {
@@ -12,7 +14,8 @@ const FoodCard = ({itemId, image, name, price, description}) => {
     <div className='food-card'>
 
         <div className="food-card-img-container">
-            <img className='food-card-img' src={image} alt="" />
+            {/* <img className='food-card-img' src={image} alt="" /> */}
+            <LazyLoadImageComponent src={image} alt={name} className='food-card-img' />
             {
                 
                 !cartItems[itemId]
@@ -28,7 +31,7 @@ const FoodCard = ({itemId, image, name, price, description}) => {
         <div className="food-item-info">
             <div className="food-name-rating">
                 <p>{name}</p>
-                <img src={assets.rating_starts} alt="" />
+                {/* <img src={assets.rating_starts} alt="" /> */}
             </div>
             <p className="food-item-desc">{description}</p>
             <p className="food-item-price">${price}</p>

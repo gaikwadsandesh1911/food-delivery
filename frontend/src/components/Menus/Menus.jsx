@@ -1,5 +1,7 @@
 import './menus.css'
 import { menu_list } from '../../assets/assets'
+import LazyLoadImageComponent from '../LazyLoadImage/LazyLoadImageComponent'
+
 
 // eslint-disable-next-line react/prop-types
 const Menus = ({category, setCategory}) => {
@@ -16,7 +18,8 @@ const Menus = ({category, setCategory}) => {
           menu_list.map((item, index)=>{
             return(
               <div key={index} onClick={()=>setCategory((prev)=>prev == item.menu_name ? "All" : item.menu_name)} className='menu-list-item'>
-                <img className={category == item.menu_name ? 'active' : ''} src={item.menu_image} alt="" />
+                {/* <img className={category == item.menu_name ? 'active' : ''} src={item.menu_image} alt="" /> */}
+                <LazyLoadImageComponent className={category == item.menu_name ? 'active' : ''} src={item.menu_image}/>
                 <p className={`menu-name ${category == item.menu_name ? 'active' : ''}`}>{item.menu_name}</p>
               </div>
             )
