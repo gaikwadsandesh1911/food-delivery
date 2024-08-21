@@ -60,3 +60,21 @@ form span.error{
     font-size: 14px;
     font-style: italic;
 }
+
+/* ------------------------------------ */
+
+@media (max-width: 750px) {
+    .add-product-name, .add-product-description{
+        width: 260px;
+    }
+    .add-category-price{
+        display: flex;
+        flex-direction: column;
+    }
+    .add-category-price select, .add-category-price input{
+        width: 260px;
+    }
+    .add-btn{
+        width: 260px;
+    }
+}

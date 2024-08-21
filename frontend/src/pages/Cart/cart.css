@@ -88,10 +88,10 @@
 }
 
 .cart-promocode-input input{
+    flex: 1;
     border: none;
     outline: none;
     padding: 8px ;
-    flex: 1;
     /* background-color: transparent; */
 }
 
@@ -105,5 +105,20 @@
 
     margin-left: 4px;
     cursor: pointer;
+}
+
+/* ----------------------------- */
+
+@media (max-width: 750px) {
+    .cart{
+        margin-top: 20px;
+    }
+    .cart-bottom{
+        flex-direction: column-reverse;
+    }
+
+    .cart-promocode{
+        justify-content: start;
+    }
 }
 

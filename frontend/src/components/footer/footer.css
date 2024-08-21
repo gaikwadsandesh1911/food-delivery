@@ -6,8 +6,7 @@
     align-items: center;
     gap: 20px;
     padding: 32px 4vw;
-    margin: 40px 0px;
-    border-radius: 16px;
+    margin: 40px 0px 0px 0px;
 }
 
 .footer-content{
@@ -40,4 +39,29 @@
     margin: 16px 0px;
     border: none;
     background-color: gray;
+}
+/* ----------------------------------- */
+
+@media (max-width: 750px) {
+    .footer-content{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .left img{
+        width: 120px;
+    }
+    .left p{
+        font-size: 14px;
+    }
+    .footer-social-icon img{
+        width: 30px;
+    }
+    .footer hr{
+        height: 1px;
+    }
+    .footer-copyright{
+        text-align: center;
+    }
+
 }

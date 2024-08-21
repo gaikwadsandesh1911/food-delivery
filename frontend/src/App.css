@@ -2,3 +2,16 @@
     width: 80%;
     margin: auto;
   }
+
+  @media (max-width: 1050px) {
+    .app{
+      width: 90%;
+    }
+  }
+  
+  @media (max-width: 750px) {
+    .app{
+      width: 100%;
+      padding: 0 10px;
+    }
+  }

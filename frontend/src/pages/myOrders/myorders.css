@@ -50,7 +50,11 @@
     font-weight: 500;
 }
 
-@media (max-width: 900px){
+@media (max-width: 750px){
+
+    .my-orders{
+        margin: 10px 0px;
+    }
     .my-orders-order{
         grid-template-columns: 1fr 3fr 1.5fr;
         font-size: 10px;

@@ -50,7 +50,7 @@ const Orders = () => {
 
   return (
     <div className="orders add">
-      <h2>All Orders</h2>
+      <h3>All Orders</h3>
       {
         isLoading && (<></>)
       }

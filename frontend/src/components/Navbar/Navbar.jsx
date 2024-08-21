@@ -27,15 +27,15 @@ const Navbar = ({setShowLogin}) => {
             <Link to='/'><img src={assets.logo} alt="" className='logo'/></Link>    
         </div>
         
-        <ul className="navbar-menu">
+        {/* <ul className="navbar-menu">
             <li className={navmenu == 'home' ? 'active' : ''} onClick={()=>setNavmenu('home')}><Link to='/'>Home</Link></li>
             <li className={navmenu == 'menu' ? 'active' : ''} onClick={()=>setNavmenu("menu")}>Menu</li>
             <li className={navmenu == 'mobile-app' ? 'active' : ''} onClick={()=>setNavmenu('mobile-app')}>Mobile-App</li>
             <li className={navmenu == 'contact-us' ? 'active' : ''} onClick={()=>setNavmenu('contact-us')}>Contact Us</li>
-        </ul>
+        </ul> */}
 
         <div className="navbar-right">
-            <img src={assets.search_icon} alt="" />
+            {/* <img src={assets.search_icon} alt="" /> */}
             <div className="navbar-search-icon">
                 <Link to="/cart"><img src={assets.basket_icon} alt="" /></Link>
                 <div className={cartTotalAmount() > 0 ? "dot" : ""}></div>

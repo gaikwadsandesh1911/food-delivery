@@ -23,7 +23,7 @@
 .login-popup-container{
     place-self: center;
 
-    width: max(23vw, 330px);
+    width: max(25vw, 330px);
 
     color: #2b2a2a;
     background-color: white;
@@ -112,3 +112,6 @@
     font-style: italic;
     font-size: 14px;
 }
+
+
+/* ----------------------- */

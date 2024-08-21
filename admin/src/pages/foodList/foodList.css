@@ -4,6 +4,10 @@
     margin-left: max(2vw, 24px);
     width: 70%;
 }
+.food-list h3{
+    color: #363232;
+    margin-bottom: 10px;
+}
 .list-table-format{
     display: grid;
     grid-template-columns: 1fr 2fr 1fr 1fr .5fr;
@@ -25,4 +29,13 @@
 
 .cross-icon{
     cursor: pointer;
+}
+
+/* ----------------------------- */
+
+@media (max-width: 750px) {
+    .list-table-format{
+        grid-template-columns: 1fr 3fr 1fr;
+        gap: 16px;
+    }
 }

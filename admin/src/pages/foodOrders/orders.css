@@ -3,6 +3,9 @@
     margin-left: max(2vw, 24px);
     width: 70%
 }
+.orders h3{
+    color: #363232;
+}
 .order-item{
     display: grid;
     grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr;
@@ -39,7 +42,7 @@
     border-radius: 2px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 750px) {
     .order-item{
         grid-template-columns: 0.5fr 2fr 1fr;
         padding: 16px 8px;

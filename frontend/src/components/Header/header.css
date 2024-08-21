@@ -5,11 +5,9 @@
     background-size: cover;
 
     position: relative;
-
 }
 
 .header-contents{
-
     position: absolute;
     bottom: 10%;
     left: 6vw;
@@ -46,4 +44,30 @@
     background-color: white;
     color: #555454;
     cursor: pointer;
+}
+/* ----------------------------------------------------- */
+@media (max-width: 1050px) {
+    .header-contents{
+        max-width: 40%;
+    }
+}
+@media (max-width: 750px) {
+    .header{
+        height: 60vw;
+        margin: 12px auto;
+    }
+    .header-contents{
+        max-width: 55%;
+    }
+    .header-contents h2{
+        font-size: 24px;
+    }
+    .header-contents p{
+        display: none;
+    }
+
+    .header-contents button{
+        font-weight: 400;
+        padding: 6px 16px;  
+    }
 }
