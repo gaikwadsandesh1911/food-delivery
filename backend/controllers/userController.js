@@ -7,8 +7,8 @@ import { CustomError } from "../utils/CustomeError.js";
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-const generateJwtToken = (userId, userEmail)=> {
-    return jwt.sign({userId: userId, userEmail: userEmail}, process.env.JWT_SECRET);
+const generateJwtToken = (userId, userEmail, userRole)=> {
+    return jwt.sign({userId: userId, userEmail: userEmail, userRole: userRole}, process.env.JWT_SECRET);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -63,7 +63,7 @@ const registerUser = asyncErrorHandler(async (req, res, next) => {
     const user = await newUser.save();
     
     // generate jsonwebtoken
-    const token = generateJwtToken(user._id, user.email);
+    const token = generateJwtToken(user._id, user.email, user.role);
 
     return res.status(201).json({
         status : 'success',
@@ -94,7 +94,7 @@ const loginUser = asyncErrorHandler(async (req, res, next)=>{
         return next(new CustomError('Invalid email or password', 401));
     }
 
-    const token = generateJwtToken(user._id, user.email)
+    const token = generateJwtToken(user._id, user.email, user.role)
 
     return res.status(200).json({
         status: 'success',

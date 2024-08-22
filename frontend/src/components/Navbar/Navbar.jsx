@@ -1,13 +1,13 @@
 import './Navbar.css';
 import { assets } from '../../assets/assets.js';
-import { useContext, useState } from 'react';
+import { useContext} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import { StoreContext } from '../../context/StoreContext.jsx';
 
 // eslint-disable-next-line react/prop-types
 const Navbar = ({setShowLogin}) => {
     
-    const [navmenu, setNavmenu] = useState("home")
+    // const [navmenu, setNavmenu] = useState("home")
 
     const {token, setToken, cartTotalAmount, setCartItems } = useContext(StoreContext);
 
@@ -42,15 +42,15 @@ const Navbar = ({setShowLogin}) => {
             </div>
             {
                 !token
-                    ? <button onClick={()=>setShowLogin(true)}>sign in</button>
-                    : <div className='navbar-profile'>
+                    ?   <button onClick={()=>setShowLogin(true)}>sign in</button>
+                    :   <div className='navbar-profile'>
                             <img src={assets.profile_icon} alt="" className='profile-icon'/>
                             <ul className='navbar-profile-dropdown'>
                                 <li onClick={()=>navigate('/my-orders')}><img src={assets.bag_icon} alt="" /><p>Orders</p></li>
                                 <hr />
                                 <li onClick={logout}><img src={assets.logout_icon} alt="" /><p>Logout</p></li>
                             </ul>
-                       </div>
+                        </div>
             }
         </div>
 

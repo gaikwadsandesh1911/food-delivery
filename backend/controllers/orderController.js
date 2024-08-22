@@ -30,7 +30,7 @@ const placeOrder = asyncErrorHandler(async(req, res, next)=>{
             product_data: {
                 name: item.name
             },
-            unit_amount: item.price * 100 * 80      // if 100 is not multiplied shows less amount erro, 80 => converted usd into inr
+            unit_amount: item.price * 100 * 80      // if 100 is not multiplied shows less amount erro, * 80 => converted usd into inr
         },
         quantity: item.quantity, 
     }))
@@ -88,7 +88,7 @@ const verifyOrder = asyncErrorHandler(async(req, res, next)=>{
 // ---------------------------------------------------------------------------------------------------
 
 const userOrders = asyncErrorHandler(async(req, res, next)=>{
-    const {userId} = req.body
+    const {userId} = req.body   // userId is from authMiddleware
     const orders = await OrderModel.find({userId: userId}).sort({date: -1})
     if(orders.length < 1){
         return res.status(404).json({

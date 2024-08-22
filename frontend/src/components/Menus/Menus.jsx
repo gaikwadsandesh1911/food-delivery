@@ -8,7 +8,7 @@ const Menus = ({category, setCategory}) => {
   
   return (
     <div className='menus' id='menus'>
-      <h1>Explore menu</h1>
+      <h1>Choose from Category</h1>
       <p className='menu-text'>
         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa voluptatibus reprehenderit quidem velit,
         iusto voluptatum?

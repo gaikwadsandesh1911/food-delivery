@@ -78,7 +78,7 @@ export const globalErrorHandler = (err, req, res, next)=>{
     err.message = err.message || "Internal server Error"
     err.status = err.status || "failed"
 
-    console.log('node env', process.env.NODE_ENV);
+    // console.log('node env', process.env.NODE_ENV);
 
     if(process.env.NODE_ENV === "development"){
         devErrors(res, err);

@@ -18,6 +18,11 @@ const userSchema = new mongoose.Schema({
     required: [true, "password is required field"],
     trim: true
   },
+  role: {
+    type: String,
+    enum: ["user", "admin"],
+    default: "user"
+  },
   cartData: {
     type: Object,
     default: {},

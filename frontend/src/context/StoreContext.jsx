@@ -7,28 +7,51 @@ export const StoreContext = createContext(null);
 // eslint-disable-next-line react/prop-types
 const StoreContextProvider = ({children})=>{
 
+// ------------------------------------------------------------------------------------------------------
     // fetching foodList from backend
     const [isLoading, setIsLoading] = useState(false);
-    const [isError, setIsError] = useState(null);
+    const [isError, setIsError] = useState(false);
+
+    const [currentPage, setCurrentPage] = useState(1)
+    const [hasMore, setHasMore] = useState(true)
+
+    const [totalPages, setTotalPages] = useState(1)
+
+    const itemsPerPage = 10;
+
     const [food_list, setFood_list] = useState([])
 
-    const fetchFoodList = async()=>{
+    const fetchFoodList = async(page)=>{
         try {
+            setIsError(false)
             setIsLoading(true);
-            const {data} = await axios.get(`${backendUrl}/api/food/food-list`)
-            setFood_list(data.foodList)
+
+            const {data} = await axios.get(`${backendUrl}/api/food/food-list?page=${page}&limit=${itemsPerPage}`);
+
+            console.log('foodListdata', data)
+
+            // setFood_list(data?.foodList)
+            setFood_list((prev)=>[...prev, ...data.foodList])   // display prevPage foodList and concat currentPage foodList
+            setHasMore(data?.foodList.length > 0)    //
+
+            setTotalPages(data?.totalPages)
+
             setIsLoading(false)
-            setIsError(null)
+            setIsError(false)
         } catch (error) {
-            setIsLoading(false);
-            setIsError(error)
             console.log(error)
+            setIsError(true)
+            setIsLoading(false);
         }
     }
 
+    const fetchMoreFoodList = ()=>{
+        setCurrentPage((prevPage)=> prevPage + 1)   // increase page number
+    }
+
     useEffect(()=>{
-        fetchFoodList()
-    },[])
+        fetchFoodList(currentPage)
+    },[currentPage])
 
     // -----------------------------------------------------------------------------------------------------------
 
@@ -133,17 +156,25 @@ const StoreContextProvider = ({children})=>{
     
     
     const contextValue = {
+
         isLoading,
         isError,
         food_list,
+        fetchMoreFoodList,
+        hasMore,
+        // setCurrentPage,
+        totalPages,
+    
         cartItems,
         setCartItems,
         addToCart,
         removeFromCart,
         cartTotalAmount,
-        backendUrl,
+
         token,
         setToken,
+
+        backendUrl,
     }
 
 

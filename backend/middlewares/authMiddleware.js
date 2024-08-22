@@ -18,13 +18,14 @@ const authMiddleware = asyncErrorHandler(async (req, res, next) => {
     }
 
   const decoded_token = await jwt.verify(token, process.env.JWT_SECRET);
-    //  console.log('decoded_token', decoded_token)
+    //  console.log('decoded_token', decoded_token);
      /* 
-          at the time of jwt.sign({userId: userId, userEmail: userEmail}) .
+          at the time of jwt.sign({userId: userId, userEmail: userEmail, userRole: userRole}) .
           here,  on req.body object we create userId property and assign value of decoded_token.userId to req.body.userId.
           req.body is express.js object
     */
-  req.body.userId = decoded_token.userId; 
+  req.body.userId = decoded_token.userId;   
+  req.userRole = decoded_token.userRole; // on req object we creaed userRole property and assign value of decoded_token.userRole
   
   next();
 
