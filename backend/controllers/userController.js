@@ -1,4 +1,4 @@
-import{UserModel}  from "../models/userModel.js";
+import{User}  from "../models/userModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import validator from "validator";
@@ -34,7 +34,7 @@ const registerUser = asyncErrorHandler(async (req, res, next) => {
     }
 
     // if user already exist
-    const userExists = await UserModel.findOne({ email });
+    const userExists = await User.findOne({ email });
 
     if(userExists){
         return next(new CustomError('user with email is already exist', 409));
@@ -54,7 +54,7 @@ const registerUser = asyncErrorHandler(async (req, res, next) => {
     // hashing password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = new UserModel({
+    const newUser = new User({
         name,
         email,
         password: hashedPassword
@@ -83,7 +83,7 @@ const loginUser = asyncErrorHandler(async (req, res, next)=>{
     }
 
     // check user
-    const user = await UserModel.findOne({email});
+    const user = await User.findOne({email});
     if(!user){
         return next(new CustomError('Invalid email or password', 401));
     }

@@ -17,4 +17,10 @@
 .pulse-loader{
     text-align: center;
 }
+.no-item{
+    text-align: center;
+    color: tomato;
+    margin-top: 40px;
+    font-style: italic;
+}
     

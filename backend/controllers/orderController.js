@@ -1,5 +1,5 @@
-import { OrderModel } from "../models/orderModel.js";
-import { UserModel } from "../models/userModel.js";
+import { Order} from "../models/orderModel.js";
+import { User} from "../models/userModel.js";
 import Stripe from 'stripe'
 import { asyncErrorHandler } from "../utils/asynchErrorHandller.js";
 
@@ -11,7 +11,7 @@ const placeOrder = asyncErrorHandler(async(req, res, next)=>{
 
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
-    const newOrder = new OrderModel({
+    const newOrder = new Order({
         userId,
         address,
         items ,
@@ -21,7 +21,7 @@ const placeOrder = asyncErrorHandler(async(req, res, next)=>{
     await newOrder.save();
 
     //  once the order placed we have to clear cartData
-    await UserModel.findByIdAndUpdate(userId, {cartData: {}}, {new: true})
+    await User.findByIdAndUpdate(userId, {cartData: {}}, {new: true})
 
     // payment link using stripe
     const line_items = items.map((item)=>({

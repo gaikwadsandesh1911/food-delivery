@@ -4,8 +4,8 @@ import "./foodDisplay.css";
 import FoodCard from "../FoodCard/FoodCard";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { PulseLoader} from "react-spinners"
-// eslint-disable-next-line react/prop-types
-const FoodDisplay = ({ category }) => {
+
+const FoodDisplay = () => {
 
   const { backendUrl, isLoading, isError, food_list, fetchMoreFoodList, hasMore } = useContext(StoreContext);
 
@@ -22,13 +22,12 @@ const FoodDisplay = ({ category }) => {
         dataLength={food_list.length}
         next={fetchMoreFoodList}
         hasMore={hasMore}
-        loader={<PulseLoader loading={true} color="tomato" margin={5} className="pulse-loader"/>}
-        // endMessage={<p>No more items to load</p>}
+        loader={<PulseLoader loading={isLoading} color="tomato" margin={5} className="pulse-loader"/>}
+        // endMessage={<p className="no-item">No more items to load</p>}
       >
         <div className="food-list">
           {food_list &&
             food_list.map((item, index) => {
-              // if(category === "All" || category === item.category){
               return (
                 <FoodCard
                   key={index}
@@ -39,7 +38,6 @@ const FoodDisplay = ({ category }) => {
                   description={item.description}
                 />
               );
-              // }
             })}
         </div>
       </InfiniteScroll>

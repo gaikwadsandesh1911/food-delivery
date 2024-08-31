@@ -1,4 +1,4 @@
-import { FoodModel } from "../models/foodModel.js";
+import { Food} from "../models/foodModel.js";
 import fs from "fs";
 import { asyncErrorHandler } from "../utils/asynchErrorHandller.js";
 import { CustomError } from "../utils/CustomeError.js";
@@ -10,7 +10,7 @@ const addFood = asyncErrorHandler(async (req, res, next) => {
   const { name, description, price, category } = req.body;
   let image_filename = req.file.filename;
 
-  const food = new FoodModel({
+  const food = new Food({
     name,
     description,
     price,
@@ -30,20 +30,36 @@ const addFood = asyncErrorHandler(async (req, res, next) => {
 // display all foodItems
 const foodList = asyncErrorHandler(async (req, res, next) => {
 
-  // const allFoods = await FoodModel.find();
+  let allFoods;
+
+  // allFoods = await FoodModel.find();
 
   // pagination logic
   const page = parseInt(req.query.page) || 1; // default page is 1 if not specified
   const limit = parseInt(req.query.limit) || 10 // default items per page is 10 
   const skip = (page - 1) * limit;    // mongoose skip(10) will skip first 10 documents
-  const allFoods = await FoodModel.find().skip(skip).limit(limit);
 
-  const totalDocuments = await FoodModel.countDocuments();
+// ----------------------------------------------------------------------------------------------------------------
+
+  const {category, search} = req.query;
+
+  let query = {}
+
+  if(category){
+    query.category = category;
+  }
+  // if(search){
+  //   query.name = {$regex: search, $options: 'i'}
+  // }
+
+  allFoods = await Food.find(query).skip(skip).limit(limit);
+
+  const totalDocuments = await Food.countDocuments();
   const totalPages = Math.ceil(totalDocuments / limit);
   
 
   // if (allFoods.length < 1) {
-  //   const err = new CustomError("Food List is empty. Add some Food.", 404);
+  //   const err = new CustomError("No Items Found", 404);
   //   return next(err);
   // }
 
@@ -52,23 +68,22 @@ const foodList = asyncErrorHandler(async (req, res, next) => {
     foodList: allFoods,
     totalPages: totalPages,
     currentPage: page,
-    totalDocuments: totalDocuments
+    totalDocuments: totalDocuments,
+    length: allFoods?.length
   });
 });
 
 // ---------------------------------------------------------------------------------------------------------------
 // remove specific foodItem
 const removeFood = asyncErrorHandler(async (req, res, next) => {
-  const food = await FoodModel.findById({ _id: req.body._id });
+  const food = await Food.findById({ _id: req.body._id });
 
   if (!food) {
     const err = new CustomError("food not found", 404);
     return next(err);
   }
 
-  // const food_name = food.name;
-
-  await FoodModel.findByIdAndDelete({ _id: req.body._id });
+  await Food.findByIdAndDelete({ _id: req.body._id });
 
   // remove image from uploads folder
   fs.unlinkSync(`uploads/${food.image}`, () => {});

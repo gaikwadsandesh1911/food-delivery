@@ -1,4 +1,4 @@
-import { UserModel } from "../models/userModel.js";
+import { User } from "../models/userModel.js";
 import { asyncErrorHandler } from "../utils/asynchErrorHandller.js";
 import { CustomError } from "../utils/CustomeError.js";
 
@@ -18,7 +18,7 @@ const addTocart = asyncErrorHandler(async(req, res, next)=>{
         so => req.body.userId
     */
 
-    let userData = await UserModel.findOne({_id: userId}).select("cartData email");
+    let userData = await User.findOne({_id: userId}).select("cartData email");
     let cartData = userData?.cartData;
 
     // cartData.[66b3672699e18dddde48c983] = quantity => if itemId is not already,  then first time we set quantity to 1
@@ -30,7 +30,7 @@ const addTocart = asyncErrorHandler(async(req, res, next)=>{
         cartData[itemId] += 1;
     }
 
-    await UserModel.findByIdAndUpdate(userId, {cartData: cartData}, {new: true});
+    await User.findByIdAndUpdate(userId, {cartData: cartData}, {new: true});
     // req.body.userId => is from jwt middleware
     return res.status(200).json({
         status: 'success',
@@ -53,7 +53,7 @@ const removeFromCart = asyncErrorHandler(async(req, res, next)=>{
         userId is from authaMiddleware.js where on req.body object we added userId property,
         so => req.body.userId
     */
-    let userData = await UserModel.findById(userId).select("cartData email");
+    let userData = await User.findById(userId).select("cartData email");
     // console.log('userData', userData)
 
     let cartData = userData?.cartData;
@@ -67,7 +67,7 @@ const removeFromCart = asyncErrorHandler(async(req, res, next)=>{
         delete cartData[itemId];
     }
 
-    await UserModel.findByIdAndUpdate(req.body.userId, {cartData: cartData}, {new: true});
+    await User.findByIdAndUpdate(req.body.userId, {cartData: cartData}, {new: true});
 
     return res.status(200).json({
         status: 'success',
@@ -82,7 +82,7 @@ const removeFromCart = asyncErrorHandler(async(req, res, next)=>{
 const getCartDetails = asyncErrorHandler(async(req, res, next)=>{
 
     const {userId} = req.body; 
-    let userData = await UserModel.findById(userId).select("cartData email");
+    let userData = await User.findById(userId).select("cartData email");
     let cartData = userData?.cartData
     
     return res.status(200).json({

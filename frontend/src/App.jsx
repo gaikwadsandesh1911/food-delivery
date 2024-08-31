@@ -9,6 +9,7 @@ import { useState } from "react";
 import LoginPopup from "./components/LoginPopup/LoginPopup";
 import VerifyOrder from "./pages/verifyOrder/VerifyOrder";
 import MyOrders from "./pages/myOrders/MyOrders";
+import ScrollToTopButton from "./components/ScrollToTopButton/ScrollToTopButton";
 
 const App = () => {
 
@@ -29,6 +30,7 @@ const App = () => {
         </Routes>
       </div>
       <Footer />
+      <ScrollToTopButton/>
     </>
   );
 };

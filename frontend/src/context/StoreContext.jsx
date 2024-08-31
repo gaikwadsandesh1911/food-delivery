@@ -19,22 +19,36 @@ const StoreContextProvider = ({children})=>{
 
     const itemsPerPage = 10;
 
+    const [category, setCategory] = useState("");
+
     const [food_list, setFood_list] = useState([])
 
-    const fetchFoodList = async(page)=>{
+    // food category
+    
+    const fetchFoodList = async(currentPage, category)=>{
         try {
             setIsError(false)
             setIsLoading(true);
 
-            const {data} = await axios.get(`${backendUrl}/api/food/food-list?page=${page}&limit=${itemsPerPage}`);
+            let res = await axios.get(`${backendUrl}/api/food/food-list`,{
+                params : {
+                    page: currentPage,
+                    limit: itemsPerPage,
+                    category: category,
+                }
+            });   
+            if(currentPage === 1){
+                setFood_list(res.data.foodList)
+            }
+            else{
+                setFood_list((prev)=>[...prev, ...res.data.foodList])
+                // display prevPage foodList and concat currentPage foodList
+            }
+            
+            // setFood_list(res?.data.foodList)
+            setHasMore(res?.data?.foodList.length > 0)    //
 
-            console.log('foodListdata', data)
-
-            // setFood_list(data?.foodList)
-            setFood_list((prev)=>[...prev, ...data.foodList])   // display prevPage foodList and concat currentPage foodList
-            setHasMore(data?.foodList.length > 0)    //
-
-            setTotalPages(data?.totalPages)
+            setTotalPages(res?.data?.totalPages)
 
             setIsLoading(false)
             setIsError(false)
@@ -50,8 +64,8 @@ const StoreContextProvider = ({children})=>{
     }
 
     useEffect(()=>{
-        fetchFoodList(currentPage)
-    },[currentPage])
+        fetchFoodList(currentPage, category)
+    },[currentPage, category])
 
     // -----------------------------------------------------------------------------------------------------------
 
@@ -152,8 +166,6 @@ const StoreContextProvider = ({children})=>{
         }
     },[token])
 // -----------------------------------------------------------------------------------------------------------
-
-    
     
     const contextValue = {
 
@@ -161,10 +173,14 @@ const StoreContextProvider = ({children})=>{
         isError,
         food_list,
         fetchMoreFoodList,
-        hasMore,
-        // setCurrentPage,
         totalPages,
-    
+        hasMore,
+        setHasMore,
+
+        category,
+        setCategory,
+        setCurrentPage,
+        
         cartItems,
         setCartItems,
         addToCart,
