@@ -1,0 +1,51 @@
+.update-food{
+    width: 70%;
+    margin-left: max(2vw, 24px);
+    margin-top: 20px;
+    font-size: 16px;
+    color: #6d6d6d;
+}
+
+.update-food form{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.update-img-upload img{
+    width: 120px;
+    object-fit: cover;
+    cursor: pointer;
+ }
+ .update-img-upload label{
+     width: max-content;
+ }
+
+ .update-name, .update-price{
+    width: max(40%, 280px);
+}
+
+.update-name input, .update-price input{
+    padding: 8px;
+    outline: none;
+ }
+
+ .update-btn{
+    width: max(40%, 280px);
+    outline: none;
+    border: none;
+    padding: 10px;
+    background-color: tomato;
+    color: white;
+    cursor: pointer;
+    letter-spacing: 1px;
+}
+
+@media (max-width: 750px) {
+    .update-name, .update-price{
+        width: 260px;
+    }
+    .update-btn{
+        width: 260px;
+    }
+}

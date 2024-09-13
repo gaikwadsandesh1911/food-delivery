@@ -3,7 +3,7 @@ import multer from 'multer';
 const storage = multer.diskStorage({
     destination: 'uploads',
     filename: (req, file, cb)=>{
-        console.log('file', file)
+        // console.log('file', file)
         if(file.mimetype.startsWith('image/')){
             return cb(null, `${Date.now()}-${file.originalname}`);
         }

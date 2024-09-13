@@ -3,12 +3,13 @@ import {useState} from 'react'
 import "./addFood.css";
 import axios from 'axios'
 import { toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
 
 const AddFood = () => {
 
   let backendUrl = 'http://localhost:4000'
 
-  const [imageFile, setImageFile] = useState(false)
+  const [imageFile, setImageFile] = useState(null)
   
   const [formData, setFormData] = useState({
     name: "",
@@ -75,6 +76,7 @@ const AddFood = () => {
           if(res.data.status === 'success'){
             toast.success(res.data.message)
           }
+          navigate('/food-list');
         })
         .catch((error)=>{
           console.log(error)
@@ -88,10 +90,12 @@ const AddFood = () => {
         price: "",
         category: ""
       });
-      setImageFile(false)
+      setImageFile(null)
     }
     
   }
+
+  const navigate = useNavigate();
 
   return (
     <div className="add-food">
@@ -100,7 +104,7 @@ const AddFood = () => {
         <div className="add-img-upload flex-col">
           <p>Upload Image</p>
           <label htmlFor="image">
-            <img src={imageFile ? URL.createObjectURL(imageFile) : assets.upload_area} alt="" />
+            <img src={imageFile ? URL.createObjectURL(imageFile) : assets.upload_area } alt="" />
           </label>
           <input type="file" name="image" accept="image/*" onChange={(e)=>setImageFile(e.target.files[0])}
            id='image' hidden/>
@@ -145,7 +149,7 @@ const AddFood = () => {
           </div>
           <div className="add-price flex-col">
             <p>Product price</p>
-            <input type="number" min={1} name='price' value={formData.price} onChange={handleChange} placeholder="$20" autoComplete='off' required/>
+            <input type="number" min={10} name='price' value={formData.price} onChange={handleChange} placeholder="$20" autoComplete='off' required/>
           </div>
         </div>
 

@@ -74,16 +74,32 @@ const foodList = asyncErrorHandler(async (req, res, next) => {
 });
 
 // ---------------------------------------------------------------------------------------------------------------
+
+const singleFood = asyncErrorHandler(async(req, res, next)=>{
+  const {id} = req.params;
+  const food = await Food.findById({_id: id});
+  if (!food) {
+    const err = new CustomError("food not found", 404);
+    return next(err);
+  }
+  return res.status(200).json({
+    status: "success",
+    food: food
+  })
+})
+
+// ---------------------------------------------------------------------------------------------------------------
 // remove specific foodItem
 const removeFood = asyncErrorHandler(async (req, res, next) => {
-  const food = await Food.findById({ _id: req.body._id });
+  const {id} = req.params;
+  const food = await Food.findById({ _id: id});
 
   if (!food) {
     const err = new CustomError("food not found", 404);
     return next(err);
   }
 
-  await Food.findByIdAndDelete({ _id: req.body._id });
+  await Food.findByIdAndDelete({ _id: id});
 
   // remove image from uploads folder
   fs.unlinkSync(`uploads/${food.image}`, () => {});
@@ -96,4 +112,33 @@ const removeFood = asyncErrorHandler(async (req, res, next) => {
 
 // ---------------------------------------------------------------------------------------------------------------
 
-export { addFood, foodList, removeFood };
+  const updateFood = asyncErrorHandler(async(req, res, next)=>{
+    // console.log('req.file', req.file)
+    const {id} = req.params;
+    const food = await Food.findById({_id: id})
+    if (!food) {
+      const err = new CustomError("food not found", 404);
+      return next(err);
+    };
+
+    if(req.file){
+      // remove image from uploads folder
+      fs.unlinkSync(`uploads/${food.image}`, () => {});
+      food.image = req.file.filename;
+    }
+
+    food.name = req.body.name || food.name;
+    food.price = req.body.price || food.price;
+
+    const updatedFood = await food.save();
+
+    return res.status(200).json({
+      status: "success",
+      message: `${food.name} updated successfully.`,
+      food: updatedFood
+    });
+  })
+
+// ---------------------------------------------------------------------------------------------------------------
+
+export { addFood, foodList, singleFood, removeFood, updateFood};

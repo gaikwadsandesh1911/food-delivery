@@ -1,5 +1,6 @@
 import "./foodList.css"
 import {useEffect, useState} from 'react'
+import { Link } from "react-router-dom"
 import axios from 'axios'
 import {toast} from 'react-toastify'
 
@@ -28,19 +29,19 @@ const FoodList = () => {
 
   useEffect(()=>{
     fetchFoodList();
-  },[foodList])
+  },[])
 
   // console.log('foodlist', foodList)
 
   // -------------------------------------------------------------------------------------------------
   const removeFood = async(foodId)=>{
     try {
-      const {data} = await axios.post(`${backendUrl}/api/food/remove-food`, {_id: foodId});
+      const {data} = await axios.delete(`${backendUrl}/api/food/remove-food/${foodId}`);
       // console.log('data', data)
       if(data.status == "success"){
-        // once the food is removed from list, we have to fetch new food list
+        // once the food is removed from list, we have to fetch new food list.
         await fetchFoodList();
-        toast.success(data.message)
+        toast.success(data.message);
       }
     } catch (err) {
       toast.error("something went wrong while removing foodItem");
@@ -62,7 +63,8 @@ const FoodList = () => {
               <b>Name</b>
               <b>Category</b>
               <b>Price</b>
-              <b>Action</b>
+              <b>Edit</b>
+              <b>Delete</b>
           </div>
           {
             foodList && (
@@ -72,7 +74,8 @@ const FoodList = () => {
                   <p>{item.name}</p>
                   <p>{item.category}</p>
                   <p>${item.price}</p>
-                  <p className="cross-icon" onClick={()=>removeFood(item._id)}>X</p>
+                  <p><Link to={`/update-food/${item._id}`}>Edit</Link></p>
+                  <p className="cross-icon" onClick={()=>removeFood(item._id)}>Delete</p>
                 </div>
               ))
             )

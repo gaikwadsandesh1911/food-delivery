@@ -69,7 +69,7 @@ const placeOrder = asyncErrorHandler(async(req, res, next)=>{
 const verifyOrder = asyncErrorHandler(async(req, res, next)=>{
     const { orderId, success } = req.body;
     if(success == "true"){
-        await OrderModel.findByIdAndUpdate(orderId, {payment: true}, {new: true});
+        await Order.findByIdAndUpdate(orderId, {payment: true}, {new: true});
         return res.status(200).json({
             status: 'success',
             message: "paid successfully.",
@@ -77,7 +77,7 @@ const verifyOrder = asyncErrorHandler(async(req, res, next)=>{
     }
     // if amount not paid, we delete the order from db
     else{
-        await OrderModel.findByIdAndDelete(orderId);
+        await Order.findByIdAndDelete(orderId);
         return res.status(400).json({
             status: 'failed',
             message: "payment failed.",
@@ -89,7 +89,7 @@ const verifyOrder = asyncErrorHandler(async(req, res, next)=>{
 
 const userOrders = asyncErrorHandler(async(req, res, next)=>{
     const {userId} = req.body   // userId is from authMiddleware
-    const orders = await OrderModel.find({userId: userId}).sort({date: -1})
+    const orders = await Order.find({userId: userId}).sort({date: -1})
     if(orders.length < 1){
         return res.status(404).json({
             status: 'failed',
@@ -105,7 +105,7 @@ const userOrders = asyncErrorHandler(async(req, res, next)=>{
 // ---------------------------------------------------------------------------------------------------
 // getting all orders for admin dashboard
 const allOrders = asyncErrorHandler(async(req, res, next)=>{
-    const orders = await OrderModel.find().sort({date: -1});
+    const orders = await Order.find().sort({date: -1});
     if(orders.length < 1){
         return res.status(404).json({
             status: 'failed',
@@ -120,7 +120,7 @@ const allOrders = asyncErrorHandler(async(req, res, next)=>{
 // ---------------------------------------------------------------------------------------------------
 const updateOrderStatus = asyncErrorHandler(async(req, res, next)=>{
     const {orderId, status} = req.body;
-    await OrderModel.findByIdAndUpdate(orderId, {status: status}, {new: true})
+    await Order.findByIdAndUpdate(orderId, {status: status}, {new: true})
     return res.status(200).json({
         status: 'success',
         message: 'Order status updated successfully',

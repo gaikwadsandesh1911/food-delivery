@@ -14,7 +14,8 @@ const FoodDisplay = () => {
 
       <h2>Top Dishes</h2>
 
-      {isLoading && <>loading...</>}
+      {/* add shimmer effect */}
+      {isLoading && <></>}    
 
       {isError && <>Network Error...</>}
 
@@ -28,6 +29,7 @@ const FoodDisplay = () => {
         <div className="food-list">
           {food_list &&
             food_list.map((item, index) => {
+              // console.log('item', item)
               return (
                 <FoodCard
                   key={index}
