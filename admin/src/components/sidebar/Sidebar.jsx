@@ -7,11 +7,11 @@ const Sidebar = () => {
         <div className="sidebar-options">
             <NavLink to='/add-food' className="sidebar-option">
                 <img src={assets.add_icon} alt="" />
-                <p>Add Items</p>
+                <p>Add Food</p>
             </NavLink>
             <NavLink to='/food-list' className="sidebar-option">
                 <img src={assets.order_icon} alt="" />
-                <p>List Items</p>
+                <p>List Food</p>
             </NavLink>
             <NavLink to='/orders' className="sidebar-option">
                 <img src={assets.order_icon} alt="" />

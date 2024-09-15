@@ -28,6 +28,53 @@ hr{
   display: flex;
 }
 
+.navbar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 4%;
+  border-bottom: 1px solid tomato;
+
+  height: 70px;
+  
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.sidebar{
+  width: 18%;
+  border: 1.5px solid #a9a9a9;
+  min-height: 100vh;
+  border-top: 0px;
+  font-size: max(1vw, 10px);
+
+  margin-top: 70px;   
+  /* because navbar is fixed size and has 70px height */
+  position: fixed;
+  left: 0;
+
+  overflow-y: auto;
+}
+
+.main-content{
+  /* width: 70%; */
+  /* margin-left: max(2vw, 24px); */
+
+  width: 100%;
+  margin-top: 70px;
+  height: calc(100vh - 70px);
+  /* because navbar is fixed size and has 70px height */
+  margin-left: 18%;
+  /* because we have 18% width of sidebar */
+  padding: 0 20px 50px 20px;
+  overflow-y: auto;
+}
+
+.main-content::-webkit-scrollbar{
+  width: 0px;
+}
+
 .flex-col{
   display: flex;
   flex-direction: column;

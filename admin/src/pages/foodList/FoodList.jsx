@@ -3,6 +3,7 @@ import {useEffect, useState} from 'react'
 import { Link } from "react-router-dom"
 import axios from 'axios'
 import {toast} from 'react-toastify'
+import Pagination from "../../components/pagination/Pagination"
 
 const FoodList = () => {
 
@@ -10,14 +11,27 @@ const FoodList = () => {
 
   const [loading, setLoading] = useState(false)
   const [foodList, setFoodlist] = useState([]);
- 
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+
+  const handlePageChange = (page)=>{
+    setCurrentPage(page)
+  }
+
   // -------------------------------------------------------------------------------------------------
 
   const fetchFoodList = async()=>{
     try {
       setLoading(true)
-      const {data} = await axios.get(`${backendUrl}/api/food/food-list`)
+      const {data} = await axios.get(`${backendUrl}/api/food/food-list`,{
+        params: {
+          page: currentPage,
+        }
+      })
+      // console.log('data', data)
       setFoodlist(data.foodList)
+      setTotalPages(data?.totalPages)
       setLoading(false)
     } catch (err) {
       setLoading(false)
@@ -29,23 +43,27 @@ const FoodList = () => {
 
   useEffect(()=>{
     fetchFoodList();
-  },[])
+  },[currentPage])
 
   // console.log('foodlist', foodList)
 
   // -------------------------------------------------------------------------------------------------
   const removeFood = async(foodId)=>{
-    try {
-      const {data} = await axios.delete(`${backendUrl}/api/food/remove-food/${foodId}`);
-      // console.log('data', data)
-      if(data.status == "success"){
-        // once the food is removed from list, we have to fetch new food list.
-        await fetchFoodList();
-        toast.success(data.message);
+    const confirmDelete = window.confirm("Are you sure, you want to delete this record?")
+    if (confirmDelete) {
+      try {
+        const {data} = await axios.delete(`${backendUrl}/api/food/remove-food/${foodId}`);
+        // console.log('data', data)
+        if(data.status == "success"){
+          // once the food is removed from list, we have to fetch new food list.
+          await fetchFoodList();
+          toast.success(data.message);
+        }
+      } catch (err) {
+        toast.error("something went wrong while removing foodItem");
       }
-    } catch (err) {
-      toast.error("something went wrong while removing foodItem");
     }
+    
   }
   // -------------------------------------------------------------------------------------------------
 
@@ -82,6 +100,13 @@ const FoodList = () => {
           }
         </div>
       </div>
+      
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
+
     </div>
   )
 }

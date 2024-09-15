@@ -1,7 +1,7 @@
 .orders{
+    /* margin-left: max(2vw, 24px);
+    width: 70%; */
     margin-top: 20px;
-    margin-left: max(2vw, 24px);
-    width: 70%
 }
 .orders h3{
     color: #363232;

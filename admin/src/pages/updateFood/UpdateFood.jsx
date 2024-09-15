@@ -24,7 +24,7 @@ const UpdateFood = () => {
 
     const handleImageChange = (e)=>{
         const file = e.target.files[0];
-        console.log('file', file)
+        // console.log('file', file)
         setNewImage(file)
         setImagePreview(URL.createObjectURL(file))
     }
@@ -39,7 +39,7 @@ const UpdateFood = () => {
         const fetchSingleFood = async()=>{
             try {
                 const {data} = await axios.get(`${backendUrl}/api/food/single-food/${id}`);
-                console.log('res', data)
+                // console.log('res', data)
                 if(data.status == 'success'){
                     setFormData({
                         name: data?.food?.name,
@@ -83,7 +83,7 @@ const UpdateFood = () => {
         if(isValid){
             axios.put(`${backendUrl}/api/food/update-food/${id}`, data)
             .then(()=>{
-                console.log('food updated successfully')
+                // console.log('food updated successfully')
                 navigate('/food-list');
             })
             .catch((error)=>{

@@ -1,0 +1,21 @@
+.pagination{
+    padding-top: 40px;
+
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.pagination button{
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+button.active{
+    background-color: #FFF0ED;
+    border: 1px solid tomato;
+}
+
