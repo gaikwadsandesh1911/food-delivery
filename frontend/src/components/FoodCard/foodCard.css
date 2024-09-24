@@ -57,6 +57,8 @@
 
     width: 30px;
     border-radius: 50%;
+
+    border: 2px solid tomato;
 }
 
 .food-item-counter{

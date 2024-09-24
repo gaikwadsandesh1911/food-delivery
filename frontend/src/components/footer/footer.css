@@ -27,6 +27,12 @@
     cursor: pointer;
 }
 
+/* img.logo{
+    width: max(10%, 100px);
+    cursor: pointer;
+    border-radius: 4px;
+} */
+
 .footer-social-icon img{
     width: 40px;
     margin-right: 10px;

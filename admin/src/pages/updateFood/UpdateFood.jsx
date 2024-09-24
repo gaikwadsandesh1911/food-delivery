@@ -84,7 +84,7 @@ const UpdateFood = () => {
             axios.put(`${backendUrl}/api/food/update-food/${id}`, data)
             .then(()=>{
                 // console.log('food updated successfully')
-                navigate('/food-list');
+                navigate('/');
             })
             .catch((error)=>{
                 console.log('error', error)

@@ -10,15 +10,17 @@ const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [isError, setIsError] = useState(false);
 
+  // ----------------------------------------------------------------------------fetch all orders
   const fetchAllOrders = async()=>{
     try {
       setIsLoading(true);
-      const {data} = await axios.get(`http://localhost:4000/api/order/all-orders`)
+      const {data} = await axios.get(`http://localhost:4000/api/order/all-orders`);
+      console.log('allOrders', data);
       if(data?.status == 'success'){
         setOrders(data?.orders)
       }
-      console.log('orders',orders)
-      setIsLoading(false)
+      // console.log('orders',orders)
+      setIsLoading(false);
       setIsError(false);
     } catch (error) {
       setIsLoading(false)
@@ -31,7 +33,7 @@ const Orders = () => {
     fetchAllOrders()
   },[])
 
-  // ---------------------------------------------------
+  // ----------------------------------------------------------------------------order status
 
   const orderStatusHandler = async(e, orderId)=>{
     // console.log(e.target.value, orderId)
@@ -55,7 +57,7 @@ const Orders = () => {
         isLoading && (<></>)
       }
       {
-        isError && (<p>something went wrong...</p>)
+        isError && (<p>No New Orders Found!</p>)
       }
       
       <div className="order-list">
@@ -67,10 +69,11 @@ const Orders = () => {
                 <p className="ordered-food">
                   {
                     order.items.map((food, i)=>{
+                      // access last item of the order, do not concat , after last item, i starts from 0 it's index
                       if(i == food.length - 1){
                         return `${food.name} x ${food.quantity}`
                       }
-                      return `${food.name} x ${food.quantity}, `
+                      return `${food.name} x ${food.quantity}`+", "
                     })
                   }
                 </p>

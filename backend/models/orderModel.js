@@ -4,7 +4,7 @@ const orderSchema = new mongoose.Schema({
     userId: {
         type: String,
         required: true
-    },
+    },  // login user id
     address: {
         type: Object,
         required: true

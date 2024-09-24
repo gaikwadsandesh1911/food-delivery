@@ -30,7 +30,7 @@ const placeOrder = asyncErrorHandler(async(req, res, next)=>{
             product_data: {
                 name: item.name
             },
-            unit_amount: item.price * 100 * 80      // if 100 is not multiplied shows less amount erro, * 80 => converted usd into inr
+            unit_amount: item.price * 100 * 80      // if 100 is not multiplied shows less amount error, * 80 => converted usd into inr
         },
         quantity: item.quantity, 
     }))

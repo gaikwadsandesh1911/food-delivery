@@ -16,7 +16,7 @@ const App = () => {
         <div className='main-content'>
           <Routes>
             <Route path="/add-food" element={<AddFood/>}/>
-            <Route path="/food-list" element={<FoodList/>}/>
+            {/* <Route path="/food-list" element={<FoodList/>}/> */}
             <Route path="/" element={<FoodList/>}/>
             <Route path="/orders" element={<Orders/>}/>
             <Route path="/update-food/:id" element={<UpdateFood/>}/>

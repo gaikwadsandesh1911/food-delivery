@@ -36,7 +36,7 @@ const MyOrders = () => {
         <div className="container">
 
             {
-                orders.length && orders.map((order, i)=>(
+                orders.length > 0 && orders.map((order, i)=>(
                     <div key={order._id || i} className='my-orders-order'>
                     <img src={assets.parcel_icon} alt="" />
                     <p>
@@ -44,7 +44,7 @@ const MyOrders = () => {
                             order.items.map((item, i)=>{
                                 // access last item of the order, do not concat , after last item
                                 if(i === order.items.length - 1){
-                                    return `${item?.name} x ${item?.quantity}`
+                                    return `${item?.name} x ${item?.quantity}`+"."
                                 }
                                 else{
                                     return `${item?.name} x ${item?.quantity}`+", "
@@ -58,6 +58,9 @@ const MyOrders = () => {
                     <button onClick={fetchOrders}>Track Order</button>
                     </div>
                 ))
+            }
+            {
+                orders.length === 0 && <p>No orders found</p>
             }
         </div>
     </div>

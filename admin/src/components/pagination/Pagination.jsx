@@ -1,7 +1,7 @@
 import './pagination.css'
 // eslint-disable-next-line react/prop-types
 const Pagination = ({currentPage, totalPages, onPageChange}) => {
-  console.log('currentPage', currentPage, "totalpages", totalPages, "onpagechange",onPageChange)
+  
   const pageNumbers = [];
   
   for (let i = 1; i <= totalPages; i++) {

@@ -8,7 +8,7 @@
 } */
 
 img.logo{
-    width: max(10%, 80px);
+    width: max(10%, 100px);
     cursor: pointer;
 }
 img.profile{
