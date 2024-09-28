@@ -8,10 +8,14 @@ import { CustomError } from "./utils/CustomeError.js";
 import userRouter from "./routes/userRoutes.js";
 import cartRouter from "./routes/cartRoutes.js";
 import orderRouter from "./routes/orderRoutes.js";
-
+import http from 'http'
+import {Server} from 'socket.io'
+import { getOrderStatus } from "./socket/orderStatus.js";
 dotenv.config();
 
 const app = express();
+
+connectDB();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -24,7 +28,7 @@ const port = process.env.PORT || 8000;
 app.use('/api/food', foodRouter);
 app.use('/api/user', userRouter);
 app.use('/api/cart', cartRouter);
-app.use('/api/order', orderRouter)
+app.use('/api/order', orderRouter);
 
 
 // if route not matches
@@ -42,10 +46,33 @@ app.all('*', (req, res, next)=>{
     return next(err);
 });
 
+
+const server = http.createServer(app);
+const io = new Server(server,{
+    cors:{
+        origin: ['http://localhost:5173','http://localhost:5174'],
+        methods: ['GET', 'POST', 'PUT', 'PATCH'],
+        credentials: true
+    }
+});
+io.on('connection', (socket)=>{
+    // console.log('user connected', socket.id)
+
+    // order status;
+    getOrderStatus(io, socket);
+
+    socket.on('disconnect', ()=>{
+        // console.log('user disconnected', socket.id)
+    })
+})
+
+
 // global error handling middleware
 app.use(globalErrorHandler);
 
-app.listen(port, ()=>{
-    connectDB();
+server.listen(port, ()=>{
     console.log(`Server is running on http://localhost:${port}`);
-})
+});
+
+
+

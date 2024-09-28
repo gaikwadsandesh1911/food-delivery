@@ -6,10 +6,10 @@ import { assets } from '../../assets/assets.js';
 
 const MyOrders = () => {
 
-    const {backendUrl, token} = useContext(StoreContext);
+    const {backendUrl, token, socket} = useContext(StoreContext);
 
     const [orders, setOrders] = useState([]);
-    
+
     const fetchOrders = async()=>{
         try {
             const {data} = await axios.post(`${backendUrl}/api/order/user-orders`, {}, {
@@ -28,7 +28,19 @@ const MyOrders = () => {
         if(token){
             fetchOrders();
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[token]);
+
+    // -------------------------------------------------------------
+
+    if(socket){
+        socket.on('orderStatus', ({orderId,status})=>{
+            const updatedOrder = orders.map((order)=>(
+                order._id === orderId ? {...order, status: status} : order
+            ))
+            setOrders(updatedOrder)
+        });
+    }
 
   return (
     <div className='my-orders'>
@@ -55,7 +67,6 @@ const MyOrders = () => {
                     <p>${order.amount}.00</p>
                     <p>Total Items: {order.items.length}</p>
                     <p><span>&#x25cf;</span><b>{order.status}</b></p>
-                    <button onClick={fetchOrders}>Track Order</button>
                     </div>
                 ))
             }

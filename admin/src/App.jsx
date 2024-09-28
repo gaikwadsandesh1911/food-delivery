@@ -6,7 +6,8 @@ import FoodList from "./pages/foodList/FoodList"
 import Orders from "./pages/foodOrders/Orders"
 import UpdateFood from "./pages/updateFood/UpdateFood"
 
-const App = () => {
+const App = () => { 
+  
   return (
     <div>
       <Navbar />

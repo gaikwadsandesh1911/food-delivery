@@ -3,7 +3,6 @@ import { User} from "../models/userModel.js";
 import Stripe from 'stripe'
 import { asyncErrorHandler } from "../utils/asynchErrorHandller.js";
 
-
 const placeOrder = asyncErrorHandler(async(req, res, next)=>{
     const {userId} = req.body;      // from authMiddleware
     const {items, amount, address} = req.body
@@ -88,6 +87,7 @@ const verifyOrder = asyncErrorHandler(async(req, res, next)=>{
 // ---------------------------------------------------------------------------------------------------
 
 const userOrders = asyncErrorHandler(async(req, res, next)=>{
+
     const {userId} = req.body   // userId is from authMiddleware
     const orders = await Order.find({userId: userId}).sort({date: -1})
     if(orders.length < 1){
@@ -118,18 +118,8 @@ const allOrders = asyncErrorHandler(async(req, res, next)=>{
     });
 })
 // ---------------------------------------------------------------------------------------------------
-const updateOrderStatus = asyncErrorHandler(async(req, res, next)=>{
-    const {orderId, status} = req.body;
-    await Order.findByIdAndUpdate(orderId, {status: status}, {new: true})
-    return res.status(200).json({
-        status: 'success',
-        message: 'Order status updated successfully',
-    })
-})
-// ---------------------------------------------------------------------------------------------------
 
-
-export { placeOrder, verifyOrder, userOrders, allOrders, updateOrderStatus };
+export { placeOrder, verifyOrder, userOrders, allOrders};
 
 
 /* 

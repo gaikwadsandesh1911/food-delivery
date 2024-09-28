@@ -2,6 +2,8 @@ import {createContext, useEffect, useState} from 'react';
 // import { food_list } from '../assets/assets';
 import axios from 'axios';
 
+import {io} from 'socket.io-client'
+
 export const StoreContext = createContext(null);
 
 // eslint-disable-next-line react/prop-types
@@ -36,7 +38,7 @@ const StoreContextProvider = ({children})=>{
                     limit: itemsPerPage,
                     category: category,
                 }
-            });   
+            });   // whatever we send in params at server will recieve as query parameter
             if(currentPage === 1){
                 setFood_list(res.data.foodList)
             }
@@ -165,8 +167,19 @@ const StoreContextProvider = ({children})=>{
             fetchCartData(localStorage_token);  // calling fetchCartData() function if token is available
         }
     },[token])
-// -----------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------socket connection
     
+    const [socket, setSocket] = useState(null);
+    useEffect(()=>{
+    const socketConnection = io("http://localhost:4000");
+    setSocket(socketConnection);
+
+    return ()=>socketConnection.close();
+
+    },[]);
+
+// -----------------------------------------------------------------------------------------------------------
+
     const contextValue = {
 
         isLoading,
@@ -191,9 +204,11 @@ const StoreContextProvider = ({children})=>{
         setToken,
 
         backendUrl,
+
+        socket
     }
 
-
+// -----------------------------------------------------------------------------------------------------------
     return(
         <StoreContext.Provider value={contextValue}>
             {children}

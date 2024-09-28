@@ -2,9 +2,20 @@ import "./orders.css"
 import {useEffect, useState} from 'react';
 import axios from 'axios'
 import {assets} from '../../assets/assets'
+import {io} from 'socket.io-client'
 
 const Orders = () => {
 
+  // ----------------------------------------------------------------------------socket connection
+  const [socket, setSocket] = useState(null);
+  useEffect(()=>{
+    const socketConnection = io("http://localhost:4000");
+    setSocket(socketConnection);
+
+    return ()=>socketConnection.close();
+
+  },[])
+  // ---------------------------------------------------------------------------- 
   
   const [isLoading, setIsLoading] = useState(false);
   const [orders, setOrders] = useState([]);
@@ -15,7 +26,7 @@ const Orders = () => {
     try {
       setIsLoading(true);
       const {data} = await axios.get(`http://localhost:4000/api/order/all-orders`);
-      console.log('allOrders', data);
+      // console.log('allOrders', data);
       if(data?.status == 'success'){
         setOrders(data?.orders)
       }
@@ -37,17 +48,31 @@ const Orders = () => {
 
   const orderStatusHandler = async(e, orderId)=>{
     // console.log(e.target.value, orderId)
-    try {
-      const {data} = await axios.patch(`http://localhost:4000/api/order/order-status`,{
-        orderId: orderId,
-        status: e.target.value
-      })
-      if(data?.status == 'success'){
-        fetchAllOrders();
-      }
-    } catch (error) {
-      console.log(error)
-    }
+
+    // emit an event to send to server, to update in database.
+    socket.emit('updateOrderStatus', {orderId, status: e.target.value});
+  
+    // immediate update for admin, here!
+    const updateOrderStatus = orders && (
+      orders.map((order)=>(
+        order._id === orderId ? {...order, status: e.target.value} : order
+      ))
+    )
+    setOrders(updateOrderStatus);
+  
+
+    // try {
+    //   const {data} = await axios.patch(`http://localhost:4000/api/order/order-status`,{
+    //     orderId: orderId,
+    //     status: e.target.value
+    //   })
+    //   if(data?.status == 'success'){
+    //     fetchAllOrders();
+    //   }
+    // } catch (error) {
+    //   console.log(error)
+    // }
+
   }
 
   return (
@@ -104,4 +129,4 @@ const Orders = () => {
   )
 }
 
-export default Orders
+export default Orders;
